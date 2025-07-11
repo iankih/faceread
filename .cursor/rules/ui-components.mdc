@@ -1,0 +1,30 @@
+---
+globs: src/components/**/*
+alwaysApply: false
+---
+# UI 컴포넌트 가이드
+
+## 디자인 원칙
+- **캐주얼 × 세련**: 콘텐츠 집중용 미니멀 UI
+- 광고·배경·콘텐츠 컬러 대비로 시각적 충돌 최소화
+- 모바일 퍼스트 반응형 디자인
+
+## 컴포넌트 구조
+
+src/components/
+├── ui/ # shadcn/ui 기본 컴포넌트
+├── QuestionCard.tsx # 4지선다 UI + 애니메이션
+├── RewardScreen.tsx # 결과·오답·공유 통합 화면
+└── shared/ # 공통 컴포넌트
+
+## 사용 규칙
+- Tailwind CSS 클래스만 사용
+- Radix UI headless 컴포넌트 활용
+- 애니메이션은 Framer Motion (120ms 전환)
+- 아코디언/탭으로 오답 해설 접기·펼치기
+- 광고 배너는 화면 최상단 고정
+
+## 접근성
+- ARIA 라벨 필수
+- 키보드 네비게이션 지원
+- 색상 대비 4.5:1 이상 유지

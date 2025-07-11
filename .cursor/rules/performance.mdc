@@ -1,0 +1,38 @@
+---
+description: "성능 최적화, 번들 크기 최소화, 이미지 최적화 작업에서 참조"
+alwaysApply: false
+---
+# 성능 최적화
+
+## 목표 지표
+- FCP < 1.5s / LCP < 2.5s (Moto G 3G)
+- Lighthouse Performance ≥ 90
+- 번들 크기: 초기 로드 < 300KB
+
+## 최적화 전략
+
+### 이미지 최적화
+- 형식: WebP 우선, PNG 대체
+- 크기: 1:1 비율, ≤ 200KB
+- 로딩: lazy loading 적용
+- CDN: `https://cdn.faceread.app` 사용
+
+### 코드 분할
+- 언어별 동적 import
+- 라우트별 코드 스플리팅
+- 컴포넌트 lazy loading
+
+### 캐싱 전략
+- JSON 데이터: 전역 Context 캐시
+- 이미지: 브라우저 캐시 활용
+- 정적 자산: Cloudflare Pages 캐시
+
+### 번들 최적화
+- Tree shaking 활용
+- 불필요한 의존성 제거
+- Vite 빌드 최적화 설정
+
+## 모니터링
+- Web Vitals 추적
+- Lighthouse CI 통합
+- 실제 사용자 성능 데이터 수집

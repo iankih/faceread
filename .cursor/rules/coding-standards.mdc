@@ -1,0 +1,29 @@
+---
+globs: *.ts,*.tsx,*.js,*.jsx
+alwaysApply: false
+---
+# 코딩 표준
+
+## 파일 및 네이밍 규칙
+- 파일명: kebab-case (예: question-card.tsx)
+- 컴포넌트명: PascalCase (예: QuestionCard)
+- 함수/변수명: camelCase (예: handleAnswerClick)
+- 상수: UPPER_SNAKE_CASE (예: MAX_QUESTIONS)
+- 닉네임 규칙: `^[A-Za-z0-9가-힣]{1,10}$`
+
+## TypeScript 규칙
+- 명시적 타입 정의 선호
+- interface 사용 (type 대신)
+- 엄격한 null 체크 활용
+- any 타입 사용 금지
+
+## React 패턴
+- 함수형 컴포넌트 사용
+- Custom hooks로 로직 분리
+- Props interface는 컴포넌트 상단에 정의
+- 명명된 export 사용 (default export 지양)
+
+## 성능 최적화
+- 번들 크기 최소화 (언어별 동적 import)
+- 이미지: 1:1 WebP ≤ 200KB
+- 중복 ID 방지 (한 세션에 같은 문제 두 번 출제 금지)

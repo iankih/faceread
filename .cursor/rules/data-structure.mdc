@@ -1,0 +1,39 @@
+---
+globs: src/data/**/*,src/types/**/*,**/*.types.ts
+alwaysApply: false
+---
+# 데이터 구조
+
+## 핵심 타입 정의
+```typescript
+type EmotionQuestion = {
+  id: string;                         // unique
+  type: 'face2text' | 'text2face' | 'eyes2text';
+  image: string;                      // WebP path
+  emotionKey: string;                 // i18n key
+  explanation: {
+    ko: string;
+    en: string;
+    es: string;
+  };
+};
+
+type GameMode = 'standard' | 'integrated';
+type ScoreRange = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+```
+
+## 게임 로직
+- 표준 모드: face→text 4문제, text→face 3문제, eyes→text 3문제 = 총 10문제
+- 통합 모드: 슬라이더로 세 유형 비율 자유 조합, 총 10문제
+- 중복 방지: 한 세션에 같은 문제 ID 두 번 출제 금지
+
+## 점수 및 등급 시스템
+- 9-10점: 감정 탐정 마스터 (/share/master.jpg)
+- 6-8점: 감정 탐정 전문가 (/share/expert.jpg)
+- 3-5점: 감정 탐정 초보자 (/share/rookie.jpg)
+- 0-2점: 감정 탐정 견습생 (/share/novice.jpg)
+
+## 데이터 로딩 전략
+- 초기 번들: 기본 언어(브라우저 locale) JSON만 포함
+- 다른 언어: `import(\`./questions.${lang}.json\`)` lazy-load
+- JSON 1회 fetch → 전역 Context 캐시, 재요청 없음

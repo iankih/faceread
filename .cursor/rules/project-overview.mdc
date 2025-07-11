@@ -1,0 +1,33 @@
+---
+alwaysApply: true
+---
+# 감정 인식 퀴즈 프로젝트
+
+## 프로젝트 비전
+"감정을 읽는 능력을 게임처럼 체험하고, 학습·공유를 통해 자연스러운 바이럴을 창출하는 모바일‑퍼스트 웹앱"
+
+## 핵심 KPI
+- 공유 클릭률 ≥ 15%
+- 세션당 재플레이 ≥ 1.8회  
+- 광고 CTR ≥ 0.9%
+
+## 기술 스택
+- **Framework**: Vite + React + TypeScript
+- **상태관리**: React useReducer + Context
+- **UI**: Radix UI + shadcn/ui + Tailwind CSS
+- **애니메이션**: Framer Motion (선택)
+- **국제화**: react-i18next (ko/en/es)
+- **배포**: Cloudflare Pages
+
+## 디자인 시스템
+- Primary: #00A4E4
+- Secondary: #006FBA, #001F4E  
+- Background: #FFFFFF, #DFF3FD
+- Divider: #F1F1F1
+
+## 성능 목표
+- FCP < 1.5s, LCP < 2.5s (Moto G 3G)
+- Lighthouse a11y ≥ 95
+
+- FCP < 1.5s, LCP < 2.5s (Moto G 3G)
+- Lighthouse a11y ≥ 95

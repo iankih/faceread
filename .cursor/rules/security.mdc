@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+# 보안 가이드
+
+## 개인정보 보호
+- 쿠키·로컬스토리지·로그인 **없음**
+- 개인정보 미수집 원칙
+- 닉네임만 임시 저장 (세션 종료 시 삭제)
+
+## CSP (Content Security Policy)
+```
+default-src 'self';
+img-src https://cdn.faceread.app 'self';
+script-src 'self' 'unsafe-inline';
+style-src 'self' 'unsafe-inline';
+```
+
+## 데이터 보안
+- 클라이언트 사이드 전용 앱
+- 서버 사이드 데이터 저장 없음
+- 광고 스크립트 샌드박싱
+
+## 입력 검증
+- 닉네임: `^[A-Za-z0-9가-힣]{1,10}$`
+- XSS 방지: 모든 사용자 입력 이스케이프
+- CSRF 방지: 상태 변경 없는 앱 구조
+
+## 외부 리소스
+- 이미지: 검증된 CDN만 사용
+- 광고: 신뢰할 수 있는 네트워크만
+- 폰트: 로컬 호스팅 또는 Google Fonts

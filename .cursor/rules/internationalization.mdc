@@ -1,0 +1,35 @@
+---
+globs: src/i18n/**/*,src/data/i18n/**/*
+alwaysApply: false
+---
+# 국제화 (i18n) 가이드
+
+## 지원 언어
+- 한국어 (ko) - 기본
+- 영어 (en)
+- 스페인어 (es)
+
+## 파일 구조
+
+src/
+├── data/
+│ ├── questions.ko.json
+│ ├── questions.en.json
+│ └── questions.es.json
+└── data/i18n/
+├── ko.json
+├── en.json
+└── es.json
+
+## 공유 문구 템플릿
+
+나의 감정 인식 능력은 [등급]! 도전해보세요! https://faceread.app
+My emotion recognition ability is [grade]! Try it yourself! https://faceread.app
+¡Mi capacidad de reconocimiento emocional es [grado]! ¡Inténtalo! https://faceread.app
+
+## 구현 규칙
+- react-i18next 사용
+- 브라우저 locale 자동 감지
+- 언어 변경 시 동적 import로 리소스 로드
+- 모든 UI 텍스트는 i18n 키로 관리
+- 이미지 alt 텍스트도 다국어 지원
