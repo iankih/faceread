@@ -1,0 +1,158 @@
+[
+  {
+    "id": "face2text_001",
+    "type": "face2text",
+    "image": "/images/faces/happy_001.webp",
+    "emotionKey": "happiness",
+    "choices": [
+      {
+        "id": "happy",
+        "text": "Joy"
+      },
+      {
+        "id": "sad", 
+        "text": "Sadness"
+      },
+      {
+        "id": "angry",
+        "text": "Anger"
+      },
+      {
+        "id": "surprised",
+        "text": "Surprise"
+      }
+    ],
+    "correctAnswer": "happy",
+    "explanation": {
+      "ko": "입꼬리가 올라가고 눈가에 주름이 생긴 표정은 진정한 기쁨을 나타냅니다.",
+      "en": "The upturned corners of the mouth and wrinkles around the eyes indicate genuine happiness.",
+      "es": "Las comisuras de la boca hacia arriba y las arrugas alrededor de los ojos indican felicidad genuina."
+    }
+  },
+  {
+    "id": "text2face_001",
+    "type": "text2face", 
+    "emotionKey": "Sadness",
+    "choices": [
+      {
+        "id": "sad_face",
+        "text": "A",
+        "image": "/images/faces/sad_001.webp"
+      },
+      {
+        "id": "happy_face",
+        "text": "B",
+        "image": "/images/faces/happy_002.webp"
+      },
+      {
+        "id": "angry_face",
+        "text": "C",
+        "image": "/images/faces/angry_001.webp"
+      },
+      {
+        "id": "fear_face",
+        "text": "D",
+        "image": "/images/faces/fear_001.webp"
+      }
+    ],
+    "correctAnswer": "sad_face",
+    "explanation": {
+      "ko": "입꼬리가 아래로 내려가고 눈썹이 처진 표정이 슬픔의 전형적인 특징입니다.",
+      "en": "Downturned mouth corners and drooping eyebrows are typical features of sadness.",
+      "es": "Las comisuras de la boca hacia abajo y las cejas caídas son características típicas de la tristeza."
+    }
+  },
+  {
+    "id": "eyes2text_001",
+    "type": "eyes2text",
+    "image": "/images/eyes/angry_001.webp",
+    "emotionKey": "anger",
+    "choices": [
+      {
+        "id": "angry",
+        "text": "Anger"
+      },
+      {
+        "id": "focused",
+        "text": "Focus"
+      },
+      {
+        "id": "confused",
+        "text": "Confusion"
+      },
+      {
+        "id": "determined",
+        "text": "Determination"
+      }
+    ],
+    "correctAnswer": "angry",
+    "explanation": {
+      "ko": "눈썹이 내려앉고 눈이 좁혀진 모습은 화가 난 감정을 나타냅니다.",
+      "en": "Furrowed brows and narrowed eyes indicate anger.",
+      "es": "Las cejas fruncidas y los ojos entrecerrados indican ira."
+    }
+  },
+  {
+    "id": "face2text_002",
+    "type": "face2text",
+    "image": "/images/faces/surprised_001.webp",
+    "emotionKey": "surprise",
+    "choices": [
+      {
+        "id": "surprised",
+        "text": "Surprise"
+      },
+      {
+        "id": "fear",
+        "text": "Fear"
+      },
+      {
+        "id": "excitement",
+        "text": "Excitement"
+      },
+      {
+        "id": "confusion",
+        "text": "Confusion"
+      }
+    ],
+    "correctAnswer": "surprised",
+    "explanation": {
+      "ko": "크게 뜬 눈과 벌어진 입은 놀람의 대표적인 표현입니다.",
+      "en": "Wide open eyes and an open mouth are typical expressions of surprise.",
+      "es": "Los ojos muy abiertos y la boca abierta son expresiones típicas de sorpresa."
+    }
+  },
+  {
+    "id": "text2face_002",
+    "type": "text2face",
+    "emotionKey": "Anger",
+    "choices": [
+      {
+        "id": "angry_face_2",
+        "text": "A",
+        "image": "/images/faces/angry_002.webp"
+      },
+      {
+        "id": "disgusted_face",
+        "text": "B",
+        "image": "/images/faces/disgusted_001.webp"
+      },
+      {
+        "id": "sad_face_2",
+        "text": "C",
+        "image": "/images/faces/sad_002.webp"
+      },
+      {
+        "id": "neutral_face",
+        "text": "D",
+        "image": "/images/faces/neutral_001.webp"
+      }
+    ],
+    "correctAnswer": "angry_face_2",
+    "explanation": {
+      "ko": "찌푸린 눈썹과 굳게 다문 입은 화난 감정을 명확히 보여줍니다.",
+      "en": "Frowning eyebrows and a tightly closed mouth clearly show angry emotion.",
+      "es": "Las cejas fruncidas y la boca cerrada firmemente muestran claramente emoción enojada."
+    }
+  }
+] 

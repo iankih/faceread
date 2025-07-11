@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Content Security Policy for FaceRead -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' https://cdn.faceread.app data:;
+      font-src 'self' https://fonts.gstatic.com;
+      connect-src 'self' https://api.faceread.app;
+      frame-ancestors 'none';
+      base-uri 'self';
+      form-action 'self';
+    ">
+    
     <title>FaceRead - 감정 인식 퀴즈</title>
   </head>
   <body>
