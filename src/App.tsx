@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import QuizPage from './pages/QuizPage'
 import ResultPage from './pages/ResultPage'
 import './App.css'
+import { Toaster } from '@/components/ui/sonner'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/result" element={<ResultPage />} />
           </Routes>
         </div>
+        <Toaster />
       </QuizProvider>
     </Router>
   )

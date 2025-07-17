@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useQuizContext } from '../contexts/QuizContext'
 import { Button } from '@/components/ui/button'
+import { Brain, Clock } from 'lucide-react'
 import QuestionCard from '../components/QuestionCard'
 import type { SupportedLanguage, GameMode } from '../types/quiz'
 
@@ -41,10 +42,10 @@ const QuizPage: React.FC = () => {
   // 로딩 상태
   if (quiz.isLoading) {
     return (
-      <div className="min-h-screen bg-background-light flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary-600">문제를 불러오는 중...</p>
+          <p className="text-gray-600">문제를 불러오는 중...</p>
         </div>
       </div>
     )
@@ -53,11 +54,11 @@ const QuizPage: React.FC = () => {
   // 에러 상태
   if (quiz.error) {
     return (
-      <div className="min-h-screen bg-background-light flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
-          <h2 className="text-xl font-bold text-secondary-800 mb-2">오류가 발생했습니다</h2>
-          <p className="text-secondary-600 mb-6">{quiz.error}</p>
+          <h2 className="text-xl font-bold text-gray-800 mb-2">오류가 발생했습니다</h2>
+          <p className="text-gray-600 mb-6">{quiz.error}</p>
           <Button
             onClick={() => navigate('/')}
             variant="default"
@@ -72,35 +73,39 @@ const QuizPage: React.FC = () => {
   // 퀴즈가 시작되지 않았거나 문제가 없는 경우
   if (!quiz.isQuizStarted || !quiz.currentQuestion) {
     return (
-      <div className="min-h-screen bg-background-light flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-pulse">
             <div className="h-4 bg-gray-300 rounded w-48 mx-auto mb-4"></div>
             <div className="h-8 bg-gray-300 rounded w-32 mx-auto"></div>
           </div>
-          <p className="text-secondary-600 mt-4">퀴즈를 준비하고 있습니다...</p>
+          <p className="text-gray-600 mt-4">퀴즈를 준비하고 있습니다...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background-light">
+    <div className="min-h-screen bg-white">
       {/* Header with Progress */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-lg font-bold text-secondary-800">FaceRead</h1>
-              <span className="text-sm text-secondary-600">
+            <div className="flex items-center space-x-3">
+              <Brain size={20} className="text-primary" />
+              <h1 className="text-lg font-bold text-gray-800">FaceRead</h1>
+              <span className="text-sm text-gray-600">
                 {state?.nickname || '플레이어'}님의 퀴즈
               </span>
             </div>
             
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-secondary-600">
-                {quiz.currentQuestionIndex + 1} / {quiz.totalQuestions}
-              </span>
+              <div className="flex items-center gap-2">
+                <Clock size={16} className="text-gray-500" />
+                <span className="text-sm text-gray-600">
+                  {quiz.currentQuestionIndex + 1} / {quiz.totalQuestions}
+                </span>
+              </div>
               <div className="w-32 bg-gray-200 rounded-full h-2">
                 <div 
                   className="bg-primary h-2 rounded-full transition-all duration-300"
@@ -126,15 +131,6 @@ const QuizPage: React.FC = () => {
           />
         </div>
       </main>
-
-      {/* Quiz Info */}
-      <div className="fixed bottom-4 left-4 bg-white rounded-lg shadow-lg p-3 text-sm">
-        <div className="text-secondary-600">
-          <div>점수: {quiz.score}점</div>
-          <div>모드: {state?.gameMode === 'standard' ? '표준' : '통합'}</div>
-          <div>언어: {state?.language === 'ko' ? '한국어' : state?.language === 'en' ? 'English' : 'Español'}</div>
-        </div>
-      </div>
     </div>
   )
 }

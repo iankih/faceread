@@ -2,27 +2,41 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuizContext } from '../contexts/QuizContext'
 import { Button } from '@/components/ui/button'
-import type { SupportedLanguage, GameMode } from '../types/quiz'
+import AdBanner from '../components/AdBanner'
+import ShareButtons from '../components/ShareButtons'
+import { Play, User } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import type { SupportedLanguage } from '../types/quiz'
+import FAQ from '../components/FAQ' // FAQ 컴포넌트 임포트
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate()
   const { loadQuestions, setNickname } = useQuizContext()
-  
+  const { t, i18n } = useTranslation()
+
   const [nickname, setNicknameInput] = useState('')
-  const [language, setLanguage] = useState<SupportedLanguage>('ko')
-  const [gameMode, setGameMode] = useState<GameMode>('standard')
+  const [language, setLanguage] = useState<SupportedLanguage>(
+    i18n.language as SupportedLanguage
+  )
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleStartQuiz = async () => {
     if (!nickname.trim()) {
-      setError('닉네임을 입력해주세요.')
+      setError(t('nickname.error.required'))
       return
     }
 
     const isValidNickname = setNickname(nickname.trim())
     if (!isValidNickname) {
-      setError('닉네임은 영문, 한글, 숫자만 사용 가능하며 1-10자여야 합니다.')
+      setError(t('nickname.error.invalid'))
       return
     }
 
@@ -31,167 +45,170 @@ const HomePage: React.FC = () => {
 
     try {
       await loadQuestions(language)
-      navigate('/quiz', { 
-        state: { 
-          gameMode, 
+      navigate('/quiz', {
+        state: {
+          gameMode: 'standard',
           language,
-          nickname: nickname.trim()
-        } 
+          nickname: nickname.trim(),
+        },
       })
     } catch (err) {
-      setError('문제를 불러오는데 실패했습니다. 다시 시도해주세요.')
+      setError(t('quiz.error.load'))
     } finally {
       setIsLoading(false)
     }
   }
 
+  const languages = [
+    { value: 'ko', label: '한국어', flag: '🇰🇷' },
+    { value: 'en', label: 'English', flag: '🇺🇸' },
+    // { value: 'es', label: 'Español', flag: '🇪🇸' }, // 스페인어 임시 비활성화
+  ]
+
+  const homeShareText = t('share.homeText')
+  const homeShareUrl = window.location.href
+
   return (
-    <div className="min-h-screen bg-background-light">
-      {/* Header */}
-      <header className="bg-primary text-white py-12 px-4 text-center">
-        <h1 className="text-4xl font-bold mb-4">FaceRead</h1>
-        <p className="text-xl opacity-90 mb-2">감정을 읽는 능력을 게임처럼 체험해보세요!</p>
-        <p className="text-lg opacity-80">얼굴 표정과 감정을 맞추는 재미있는 퀴즈</p>
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* 상단바 */}
+      <header className="bg-background-light border-b border-gray-100">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* 로고 */}
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-foreground">FaceRead</h1>
+              <span className="text-2xl">🧠🫣</span>
+            </div>
+
+            {/* 언어 선택 */}
+            <Select
+              value={language}
+              onValueChange={(value: SupportedLanguage) => {
+                setLanguage(value as SupportedLanguage)
+                i18n.changeLanguage(value)
+              }}
+            >
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                {languages.map((lang) => (
+                  <SelectItem key={lang.value} value={lang.value}>
+                    {lang.flag} {lang.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-12 max-w-2xl">
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
-            퀴즈 시작하기
-          </h2>
+      {/* 광고 배너 */}
+      <AdBanner />
 
-          {/* Nickname Input */}
-          <div className="mb-6">
-            <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2">
-              닉네임
-            </label>
-            <input
-              type="text"
-              id="nickname"
-              value={nickname}
-              onChange={(e) => setNicknameInput(e.target.value)}
-              placeholder="닉네임을 입력하세요 (1-10자)"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              maxLength={10}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              영문, 한글, 숫자만 사용 가능합니다.
+      {/* 메인 컨텐츠 */}
+      <main className="flex-grow container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8">
+          {/* Left Hero Visual */}
+          <div className="flex-1 max-w-md w-full bg-background-light border border-gray-200 rounded-2xl shadow-sm p-8 flex items-center justify-center min-h-[300px]">
+            <p className="text-foreground text-center">
+              얼굴 감정 콜라주 / 애니 GIF / Lottie (비율 유지, 반투명 오버레이
+              가능)
             </p>
           </div>
 
-          {/* Language Selection */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              언어 선택
-            </label>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { value: 'ko', label: '한국어' },
-                { value: 'en', label: 'English' },
-                { value: 'es', label: 'Español' }
-              ].map((lang) => (
-                <Button
-                  key={lang.value}
-                  onClick={() => setLanguage(lang.value as SupportedLanguage)}
-                  variant={language === lang.value ? "default" : "outline"}
-                  className="w-full"
-                >
-                  {lang.label}
-                </Button>
-              ))}
+          {/* Right Section - 퀴즈 영역 */}
+          <div className="flex-1 max-w-md w-full bg-background-light border border-gray-200 rounded-2xl shadow-sm p-8">
+            <h2 className="text-left text-xl font-bold text-foreground mb-4">
+              🎯 {t('quiz.title')}
+            </h2>
+            <p className="text-left text-foreground mb-6">
+              {t('quiz.description')}
+            </p>
+
+            {/* 닉네임 입력 */}
+            <div className="mb-6">
+              <div className="relative flex items-center">
+                <User className="absolute left-3 text-foreground" size={20} />
+                <input
+                  type="text"
+                  id="nickname"
+                  value={nickname}
+                  onChange={(e) => setNicknameInput(e.target.value)}
+                  placeholder={t('nickname.placeholder')}
+                  className="w-full pl-10 pr-4 py-3 bg-input rounded-lg outline-none border border-transparent focus:ring-0 hover:border-primary text-foreground placeholder-placeholder-light transition-all duration-200"
+                  maxLength={10}
+                />
+              </div>
+              <p className="text-xs text-foreground mt-2">
+                {t('nickname.hint')}
+              </p>
+            </div>
+
+            {/* 에러 메시지 */}
+            {error && (
+              <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
+            {/* 시작 버튼 */}
+            <Button
+              onClick={handleStartQuiz}
+              disabled={isLoading}
+              size="lg"
+              className="w-full bg-primary text-white hover:bg-[#9e95ff] hover:border-primary cursor-pointer border-2 border-transparent"
+            >
+              <Play size={18} className="mr-2" />
+              {isLoading ? t('quiz.loading') : t('quiz.start')}
+            </Button>
+
+            {/* 공유 버튼 영역 */}
+            <div className="mt-6 text-center">
+              <div className="text-center text-sm font-medium text-gray-600 mb-3">
+                {t('share.titleHome')}
+              </div>
+              <ShareButtons shareText={homeShareText} shareUrl={homeShareUrl} />
             </div>
           </div>
-
-          {/* Game Mode Selection */}
-          <div className="mb-8">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              게임 모드
-            </label>
-            <div className="space-y-3">
-              <Button
-                onClick={() => setGameMode('standard')}
-                variant={gameMode === 'standard' ? "default" : "outline"}
-                className="w-full p-6 h-auto text-left justify-start"
-                asChild
-              >
-                <div>
-                  <div className="font-medium">표준 모드</div>
-                  <div className="text-sm opacity-80 mt-1">
-                    얼굴→감정 4문제 + 감정→얼굴 3문제 + 눈→감정 3문제 (총 10문제)
-                  </div>
-                </div>
-              </Button>
-              
-              <Button
-                onClick={() => setGameMode('integrated')}
-                variant={gameMode === 'integrated' ? "default" : "outline"}
-                className="w-full p-6 h-auto text-left justify-start"
-                asChild
-              >
-                <div>
-                  <div className="font-medium">통합 모드</div>
-                  <div className="text-sm opacity-80 mt-1">
-                    모든 유형에서 랜덤하게 10문제 출제
-                  </div>
-                </div>
-              </Button>
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{error}</p>
-            </div>
-          )}
-
-          {/* Start Button */}
-          <Button
-            onClick={handleStartQuiz}
-            disabled={isLoading}
-            size="lg"
-            className="w-full"
-          >
-            {isLoading ? '문제 불러오는 중...' : '퀴즈 시작하기'}
-          </Button>
         </div>
 
-        {/* Features */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">🎯</span>
-            </div>
-            <h3 className="font-medium text-gray-800 mb-2">정확한 분석</h3>
-            <p className="text-sm text-gray-600">
-              얼굴 표정과 감정을 정확하게 분석하고 학습할 수 있습니다.
-            </p>
-          </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">🎮</span>
-            </div>
-            <h3 className="font-medium text-gray-800 mb-2">게임처럼 재미있게</h3>
-            <p className="text-sm text-gray-600">
-              퀴즈 형태로 재미있게 감정 인식 능력을 향상시킬 수 있습니다.
-            </p>
-          </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">📊</span>
-            </div>
-            <h3 className="font-medium text-gray-800 mb-2">결과 공유</h3>
-            <p className="text-sm text-gray-600">
-              결과를 친구들과 공유하고 함께 도전해보세요.
-            </p>
-          </div>
+        {/* FAQ 섹션 */}
+        <div className="mt-12">
+          <FAQ />
         </div>
       </main>
+
+      {/* 하단바 */}
+      <footer className="mt-auto bg-input border-t border-gray-100 py-6">
+        <div className="container mx-auto px-4 text-center text-sm text-foreground">
+          <p>
+            {t('footer.madeBy')} | {t('footer.version', { version: '0.1.0-beta' })}{' '}
+            | {t('footer.build', { date: '2025-07-17' })} |{' '}
+            {t('footer.contact', { email: 'support@faceread.com' })}
+          </p>
+          <p className="mt-1">
+            <a href="#" className="hover:underline">
+              {t('footer.privacyPolicy')}
+            </a>{' '}
+            |{' '}
+            <a href="#" className="hover:underline">
+              {t('footer.termsOfService')}
+            </a>{' '}
+            |{' '}
+            <a
+              href="https://github.com/your-repo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              {t('footer.githubSource')}
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
 
-export default HomePage 
+export default HomePage

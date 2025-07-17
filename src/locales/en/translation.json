@@ -1,0 +1,79 @@
+{
+  "ad": {
+    "bannerArea": "Ad Banner Area",
+    "noAdMessage": "Challenge today's emotion quiz! This is an ad space."
+  },
+  "quiz": {
+    "title": "Emotion Reading Quiz",
+    "description": "How well can you read other people's expressions?",
+    "loading": "Loading questions...",
+    "start": "Read Emotions with Face"
+  },
+  "nickname": {
+    "label": "Nickname",
+    "placeholder": "Enter your nickname",
+    "hint": "English, Korean, numbers only (1-10 characters)"
+  },
+  "result": {
+    "title": "{{nickname}}'s Result",
+    "perfectScore": "🎉 Perfect score! Congratulations! 🎉",
+    "accuracy": "{{percentage}}% Accuracy",
+    "viewIncorrect": "View Explanations ({{count}})",
+    "question": "Question",
+    "yourAnswer": "Your Answer",
+    "correctAnswer": "Correct Answer"
+  },
+  "common": {
+    "share": "Share",
+    "retry": "Try Again",
+    "confirm": "Confirm",
+    "correct": "Correct",
+    "incorrect": "Incorrect"
+  },
+  "share": {
+    "title": "Share Your Result",
+    "titleHome": "Share This App",
+    "homeText": "Test your emotional intelligence with the FaceRead AI Emotion Quiz!",
+    "kakao": "Share on KakaoTalk",
+    "twitter": "Share on X",
+    "copyLink": "Copy Link",
+    "copyLinkSuccess": "Link copied!",
+    "copyLinkDescription": "The result page URL has been copied to your clipboard.",
+    "copyLinkFail": "Failed to copy link",
+    "copyLinkFailDescription": "Could not copy the URL to your clipboard. Please try again.",
+    "twitterText": "{{nickname}}, I scored {{score}} out of {{total}} on the FaceRead emotion quiz and achieved the '{{grade}}' rank!",
+    "kakaoNotReady": "KakaoTalk Sharing Unavailable",
+    "kakaoNotReadyDescription": "This feature is currently in development. Please wait a little longer!"
+  },
+  "grades": {
+    "master": "Emotion Detective Master",
+    "expert": "Emotion Detective Expert",
+    "rookie": "Emotion Detective Rookie",
+    "novice": "Emotion Detective Novice"
+  },
+  "demo": {
+    "button": "Demo"
+  },
+  "footer": {
+    "madeBy": "Made by FaceRead Lab",
+    "version": "v{{version}}",
+    "build": "Build: {{date}}",
+    "contact": "Contact {{email}}",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "githubSource": "GitHub Source"
+  },
+  "faq": {
+    "title": "FAQ",
+    "q1": "Where does the data come from?",
+    "a1": "• Public Data Portal: 'Population by administrative district'\n• National Statistical Portal (KOSIS): 'Total fertility rate by city/county/district'\nBoth agencies use raw data from the National Statistical Office.",
+    "q2": "How is the 'total fertility rate' displayed in the app calculated?",
+    "a2": "The official TFR = the estimated number of births per woman of childbearing age. We use the annual TFR values published by KOSIS as is, and for the Eup/Myeon/Dong level, we refer to the annual TFR of the corresponding city/county/district.",
+    "q3": "Newly established administrative districts are not searchable.",
+    "a3": "After the announcement of administrative district reorganization, when the National Statistical Office distributes new codes, we update the code map within a week. During this period, you can search by higher administrative districts.",
+    "q4": "Do you collect personal information?",
+    "a4": "This is a simple inquiry service without a login function, and only traffic data aggregated by GA4 (anonymized settings) is collected. Identifiable information such as IP addresses and locations are not stored.",
+    "q5": "Why was this created?",
+    "a5": "News talks about low birth rates every day, but it's hard to feel the situation in 'our neighborhood'. This website was created to show the abstract sense of crisis as concrete numbers in 'where I live' by simplifying the difficult functions of the hard-to-find National Statistical Portal. I thought that just being aware of whether my region is higher or lower than the national average is a start."
+  }
+}

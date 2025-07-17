@@ -2,17 +2,17 @@
 
 @theme {
   /* 프로젝트 색상 팔레트 */
-  --color-primary: #00A4E4;
+  --color-primary: #7366fd;
   --color-primary-foreground: #FFFFFF;
-  --color-secondary: #006FBA;
-  --color-secondary-foreground: #FFFFFF;
-  --color-accent: #001F4E;
-  --color-accent-foreground: #FFFFFF;
+  --color-secondary: #d5d1f4;
+  --color-secondary-foreground: #333333;
+  --color-accent: #d5d1f4;
+  --color-accent-foreground: #333333;
   
   /* 배경 색상 */
-  --color-background: #FFFFFF;
-  --color-background-light: #DFF3FD;
-  --color-foreground: #1a1a1a;
+  --color-background: #f4f3ef;
+  --color-background-light: #FFFFFF;
+  --color-foreground: #333333;
   
   /* 그레이 스케일 */
   --color-gray-50: #F9FAFB;
@@ -28,13 +28,15 @@
   
   /* UI 컴포넌트 색상 */
   --color-card: #FFFFFF;
-  --color-card-foreground: #1a1a1a;
-  --color-border: #F1F1F1;
-  --color-input: #F1F1F1;
-  --color-ring: #00A4E4;
+  --color-card-foreground: #333333;
+  --color-border: #e9e8e5;
+  --color-input: #f7f7f7;
+  --color-ring: #7366fd;
   --color-destructive: #EF4444;
   --color-muted: #F9FAFB;
   --color-muted-foreground: #6B7280;
+  
+  --color-placeholder-light: #666666; /* A lighter shade for placeholders */
   
   /* 반지름 */
   --radius: 0.625rem;
@@ -47,6 +49,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --primary-rgb: 115, 102, 253;
 }
 
 body {

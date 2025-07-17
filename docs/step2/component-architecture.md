@@ -1,7 +1,8 @@
-# 컴포넌트 아키텍처 설계
+# 컴포넌트 아키텍처 설계 (업데이트됨)
 
-**문서 버전:** 1.0  
+**문서 버전:** 2.0  
 **작성일:** 2025-07-11  
+**최종 수정:** 2025-07-11  
 **작성자:** AI Development Team  
 **참조:** PRD v5.2 섹션 6, 와이어프레임, 스타일 가이드
 
@@ -14,17 +15,19 @@
 2. **재사용성**: 공통 UI 컴포넌트의 높은 재사용성
 3. **확장성**: 새로운 기능 추가 시 기존 구조 변경 최소화
 4. **테스트 용이성**: 각 컴포넌트의 독립적 테스트 가능
+5. **미니멀 디자인**: 흰색 중심의 깔끔한 UI
 
 ### 기술 스택 재확인
 - **React 18**: 함수형 컴포넌트 + Hooks
 - **TypeScript 5**: 엄격한 타입 검사
 - **Tailwind CSS**: 유틸리티 퍼스트 스타일링
 - **Radix UI**: 접근성 기반 헤드리스 컴포넌트
-- **Framer Motion**: 120ms 기준 애니메이션
+- **Lucide React**: 아이콘 라이브러리
+- **Framer Motion**: 120ms 기준 애니메이션 (선택적)
 
 ---
 
-## 📂 디렉토리 구조
+## 📂 디렉토리 구조 (업데이트됨)
 
 ```
 src/
@@ -36,30 +39,17 @@ src/
 │   │   ├── modal.tsx
 │   │   ├── progress.tsx
 │   │   └── accordion.tsx
-│   ├── layout/          # 레이아웃 컴포넌트
-│   │   ├── AppShell.tsx
-│   │   ├── Header.tsx
-│   │   ├── AdBanner.tsx
-│   │   └── Container.tsx
-│   ├── quiz/            # 퀴즈 관련 컴포넌트
-│   │   ├── QuestionCard.tsx
-│   │   ├── ProgressBar.tsx
-│   │   ├── AnswerChoice.tsx
-│   │   └── QuizContainer.tsx
-│   ├── results/         # 결과 화면 컴포넌트
-│   │   ├── RewardScreen.tsx
-│   │   ├── ResultCard.tsx
-│   │   ├── ExplanationAccordion.tsx
-│   │   └── ShareModal.tsx
-│   ├── forms/           # 입력 폼 컴포넌트
-│   │   ├── NicknameForm.tsx
-│   │   ├── ModeSelector.tsx
-│   │   └── IntegratedModeSlider.tsx
+│   ├── AdBanner.tsx     # 광고 배너 컴포넌트 (신규)
+│   ├── QuestionCard.tsx # 퀴즈 카드 컴포넌트
+│   ├── RewardScreen.tsx # 결과 화면 컴포넌트
 │   └── shared/          # 공통 컴포넌트
 │       ├── LoadingSpinner.tsx
 │       ├── ErrorBoundary.tsx
-│       ├── Toast.tsx
-│       └── AnimationWrapper.tsx
+│       └── Toast.tsx
+├── pages/               # 페이지 컴포넌트
+│   ├── HomePage.tsx     # 메인 페이지 (완전 개편)
+│   ├── QuizPage.tsx     # 퀴즈 페이지 (미니멀 디자인)
+│   └── ResultPage.tsx   # 결과 페이지
 ├── hooks/               # 커스텀 훅
 │   ├── useQuiz.ts
 │   ├── useShare.ts
@@ -71,7 +61,7 @@ src/
 │   ├── AnalyticsContext.tsx
 │   └── ThemeContext.tsx
 ├── types/               # TypeScript 타입 정의
-│   ├── quiz.ts
+│   ├── quiz.ts          # GameMode 타입 수정 (표준 모드만)
 │   ├── analytics.ts
 │   └── api.ts
 ├── lib/                 # 유틸리티 라이브러리
@@ -99,166 +89,211 @@ src/
 
 ## 🧩 핵심 컴포넌트 설계
 
-### 1. AppShell (최상위 레이아웃)
+### 1. AdBanner (광고 배너 - 신규)
 
 ```typescript
-// src/components/layout/AppShell.tsx
-interface AppShellProps {
-  children: React.ReactNode;
+// src/components/AdBanner.tsx
+interface AdBannerProps {
+  className?: string;
 }
 
-export const AppShell: React.FC<AppShellProps> = ({ children }) => {
+export const AdBanner: React.FC<AdBannerProps> = ({ className = '' }) => {
   return (
-    <div className="min-h-screen bg-background-light">
-      <AdBanner />
-      <Container>
-        {children}
-      </Container>
-      <Toast />
+    <div className={`w-full bg-gray-50 border-b border-gray-200 ${className}`}>
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-center h-16 bg-white rounded-lg border border-gray-200">
+          <div className="flex items-center gap-2 text-gray-400">
+            <AlertCircle size={16} />
+            <span className="text-sm font-medium">광고 배너 영역</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 ```
 
-### 2. QuestionCard (퀴즈 핵심 컴포넌트)
+### 2. HomePage (완전 개편)
 
 ```typescript
-// src/components/quiz/QuestionCard.tsx
-interface QuestionCardProps {
-  question: EmotionQuestion;
-  onAnswer: (selectedAnswer: string) => void;
-  currentQuestion: number;
-  totalQuestions: number;
-  disabled?: boolean;
-}
+// src/pages/HomePage.tsx
+export const HomePage: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* 광고 배너 */}
+      <AdBanner />
 
-export const QuestionCard: React.FC<QuestionCardProps> = ({
-  question,
-  onAnswer,
-  currentQuestion,
-  totalQuestions,
-  disabled = false
+      {/* 상단바 */}
+      <header className="bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* 언어 선택 */}
+            <div className="flex items-center gap-2">
+              <Globe size={20} className="text-gray-500" />
+              <LanguageSelector />
+            </div>
+
+            {/* 로고 */}
+            <h1 className="text-2xl font-bold text-gray-800">FaceRead</h1>
+
+            {/* 빈 공간 (대칭을 위해) */}
+            <div className="w-20"></div>
+          </div>
+        </div>
+      </header>
+
+      {/* 메인 컨텐츠 */}
+      <main className="container mx-auto px-4 py-12">
+        <div className="max-w-md mx-auto">
+          {/* 중앙 카드 */}
+          <QuizStartCard />
+          
+          {/* 설명 텍스트 */}
+          <div className="text-center">
+            <p className="text-lg font-medium text-gray-700">
+              나의 감정읽는 능력은 얼마나 될까?
+            </p>
+          </div>
+        </div>
+      </main>
+
+      {/* 하단바 */}
+      <footer className="mt-auto bg-gray-50 border-t border-gray-100">
+        <div className="container mx-auto px-4 py-6">
+          <div className="text-center text-sm text-gray-500">
+            <p>© 2024 FaceRead • 감정 인식 능력 테스트</p>
+            <p className="mt-1">얼굴 표정을 통해 감정을 읽는 능력을 재미있게 체험해보세요</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+```
+
+### 3. QuizPage (미니멀 디자인)
+
+```typescript
+// src/pages/QuizPage.tsx
+export const QuizPage: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header with Progress */}
+      <header className="bg-white shadow-sm border-b border-gray-200">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Brain size={20} className="text-primary" />
+              <h1 className="text-lg font-bold text-gray-800">FaceRead</h1>
+              <span className="text-sm text-gray-600">
+                {nickname}님의 퀴즈
+              </span>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center gap-2">
+                <Clock size={16} className="text-gray-500" />
+                <span className="text-sm text-gray-600">
+                  {currentQuestion} / {totalQuestions}
+                </span>
+              </div>
+              <ProgressBar />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Quiz Content */}
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto">
+          <QuestionCard />
+        </div>
+      </main>
+    </div>
+  );
+};
+```
+
+### 4. RewardScreen (강화된 결과 화면)
+
+```typescript
+// src/components/RewardScreen.tsx
+export const RewardScreen: React.FC<RewardScreenProps> = ({
+  result,
+  nickname,
+  onRestart
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [showResult, setShowResult] = useState(false);
-
-  const handleAnswerSelect = (answer: string) => {
-    if (disabled || selectedAnswer) return;
-    
-    setSelectedAnswer(answer);
-    setShowResult(true);
-    
-    // 120ms 후 다음 문제로 진행
-    setTimeout(() => {
-      onAnswer(answer);
-    }, 120);
-  };
+  const [showExplanations, setShowExplanations] = useState(false);
 
   return (
-    <div className="space-y-6">
-      {/* 진행률 바 */}
-      <ProgressBar current={currentQuestion} total={totalQuestions} />
-      
-      {/* 문제 이미지/텍스트 */}
-      <div className="flex justify-center">
-        {question.type === 'face2text' || question.type === 'eyes2text' ? (
-          <img 
-            src={question.image}
-            alt="감정 표현 이미지"
-            className="w-40 h-40 object-cover rounded-card"
-          />
-        ) : (
-          <div className="text-2xl font-bold text-center p-8">
-            {question.emotionKey}
+    <div className="min-h-screen bg-white p-4">
+      <div className="max-w-lg mx-auto">
+        {/* 메인 결과 카드 */}
+        <div className="bg-white border border-gray-200 rounded-3xl shadow-sm p-8 mb-6">
+          {/* 등급 표시 */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 mb-4">
+              <Award size={18} className={gradeColors[result.grade]} />
+              <span className={`font-bold ${gradeColors[result.grade]}`}>
+                {gradeLabels[result.grade]}
+              </span>
+            </div>
+          </div>
+
+          {/* 점수 표시 */}
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Target size={24} className="text-primary" />
+              <span className="text-5xl font-bold text-gray-800">
+                {result.score}
+              </span>
+              <span className="text-2xl text-gray-500 self-end mb-1">
+                /{result.totalQuestions}
+              </span>
+            </div>
+          </div>
+
+          {/* 액션 버튼들 */}
+          <div className="space-y-3">
+            <Button onClick={handleShare} size="lg" className="w-full">
+              <Share2 size={18} className="mr-2" />
+              결과 공유하기
+            </Button>
+            
+            <Button onClick={onRestart} variant="outline" size="lg" className="w-full">
+              <RotateCcw size={18} className="mr-2" />
+              다시 도전하기
+            </Button>
+          </div>
+        </div>
+
+        {/* 설명보기 섹션 */}
+        {result.incorrectAnswers.length > 0 && (
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+            <Button
+              onClick={() => setShowExplanations(!showExplanations)}
+              variant="ghost"
+              className="w-full flex items-center justify-between p-4 h-auto text-left"
+            >
+              <div className="flex items-center gap-2">
+                <Eye size={18} className="text-gray-600" />
+                <span className="font-medium text-gray-800">
+                  틀린 문제 설명보기 ({result.incorrectAnswers.length}개)
+                </span>
+              </div>
+              {showExplanations ? (
+                <ChevronUp size={18} className="text-gray-500" />
+              ) : (
+                <ChevronDown size={18} className="text-gray-500" />
+              )}
+            </Button>
+            
+            {showExplanations && (
+              <ExplanationSection wrongAnswers={result.incorrectAnswers} />
+            )}
           </div>
         )}
       </div>
-
-      {/* 문제 텍스트 */}
-      <h2 className="text-lg font-medium text-center text-gray-700">
-        {question.type === 'text2face' ? 
-          '이 감정을 가장 잘 표현한 얼굴은?' : 
-          '이 감정은 무엇일까요?'
-        }
-      </h2>
-
-      {/* 4지선다 */}
-      <div className="space-y-3">
-        {question.choices.map((choice, index) => (
-          <AnswerChoice
-            key={index}
-            choice={choice}
-            index={index}
-            isSelected={selectedAnswer === choice.id}
-            isCorrect={showResult && choice.id === question.correctAnswer}
-            isWrong={showResult && selectedAnswer === choice.id && choice.id !== question.correctAnswer}
-            onClick={() => handleAnswerSelect(choice.id)}
-            disabled={disabled || showResult}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-```
-
-### 3. RewardScreen (통합 리워드 화면)
-
-```typescript
-// src/components/results/RewardScreen.tsx
-interface RewardScreenProps {
-  score: number;
-  totalQuestions: number;
-  grade: string;
-  nickname: string;
-  wrongAnswers: WrongAnswer[];
-  onRestart: () => void;
-  onShare: () => void;
-}
-
-export const RewardScreen: React.FC<RewardScreenProps> = ({
-  score,
-  totalQuestions,
-  grade,
-  nickname,
-  wrongAnswers,
-  onRestart,
-  onShare
-}) => {
-  return (
-    <div className="space-y-6">
-      {/* 결과 카드 */}
-      <ResultCard 
-        score={score}
-        totalQuestions={totalQuestions}
-        grade={grade}
-        nickname={nickname}
-      />
-      
-      {/* 고정 공유 버튼 */}
-      <div className="sticky top-4 z-10">
-        <Button 
-          onClick={onShare}
-          className="btn-primary"
-          aria-label="결과 공유하기"
-        >
-          📤 친구에게 도전 보내기
-        </Button>
-      </div>
-
-      {/* 오답 해설 */}
-      {wrongAnswers.length > 0 && (
-        <ExplanationAccordion wrongAnswers={wrongAnswers} />
-      )}
-
-      {/* 재시작 버튼 */}
-      <Button 
-        onClick={onRestart}
-        variant="secondary"
-        className="w-full"
-      >
-        🔄 다시 도전하기
-      </Button>
     </div>
   );
 };
@@ -266,364 +301,67 @@ export const RewardScreen: React.FC<RewardScreenProps> = ({
 
 ---
 
-## 🔗 상태 관리 구조
+## 🎨 디자인 시스템 변경사항
 
-### 1. QuizContext (퀴즈 전역 상태)
+### 색상 테마 (업데이트됨)
+- **Primary**: #00A4E4 (포인트로만 사용)
+- **Background**: #FFFFFF (메인 배경)
+- **Background-light**: #FAFAFA (연한 회색, 이전 #DFF3FD에서 변경)
+- **Border**: #F1F1F1
+- **Text**: #1a1a1a (메인), #6B7280 (보조)
 
-```typescript
-// src/contexts/QuizContext.tsx
-interface QuizState {
-  // 사용자 정보
-  nickname: string;
-  
-  // 퀴즈 설정
-  mode: 'standard' | 'integrated';
-  customRatios?: {
-    face2text: number;
-    text2face: number;
-    eyes2text: number;
-  };
-  
-  // 진행 상태
-  currentQuestion: number;
-  questions: EmotionQuestion[];
-  answers: UserAnswer[];
-  
-  // 결과
-  score: number;
-  grade: string;
-  wrongAnswers: WrongAnswer[];
-  
-  // UI 상태
-  isLoading: boolean;
-  error: string | null;
-}
+### 아이콘 시스템
+- **Lucide React**: 모든 아이콘 통일
+- **크기**: 16px, 18px, 20px, 24px
+- **색상**: text-gray-500, text-gray-600, text-primary
 
-type QuizAction = 
-  | { type: 'SET_NICKNAME'; payload: string }
-  | { type: 'SET_MODE'; payload: QuizState['mode'] }
-  | { type: 'LOAD_QUESTIONS'; payload: EmotionQuestion[] }
-  | { type: 'ANSWER_QUESTION'; payload: UserAnswer }
-  | { type: 'CALCULATE_RESULT' }
-  | { type: 'RESET_QUIZ' }
-  | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SET_ERROR'; payload: string | null };
-
-const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
-  switch (action.type) {
-    case 'SET_NICKNAME':
-      return { ...state, nickname: action.payload };
-    
-    case 'ANSWER_QUESTION':
-      const newAnswers = [...state.answers, action.payload];
-      return {
-        ...state,
-        answers: newAnswers,
-        currentQuestion: state.currentQuestion + 1
-      };
-    
-    case 'CALCULATE_RESULT':
-      const score = calculateScore(state.answers, state.questions);
-      const grade = getGrade(score);
-      const wrongAnswers = getWrongAnswers(state.answers, state.questions);
-      
-      return {
-        ...state,
-        score,
-        grade,
-        wrongAnswers
-      };
-    
-    default:
-      return state;
-  }
-};
-```
-
-### 2. useQuiz 훅
-
-```typescript
-// src/hooks/useQuiz.ts
-export const useQuiz = () => {
-  const context = useContext(QuizContext);
-  if (!context) {
-    throw new Error('useQuiz must be used within QuizProvider');
-  }
-
-  const { state, dispatch } = context;
-
-  // 문제 로딩
-  const loadQuestions = useCallback(async (mode: QuizMode, customRatios?: CustomRatios) => {
-    dispatch({ type: 'SET_LOADING', payload: true });
-    
-    try {
-      const allQuestions = await import('../data/questions.ko.json');
-      const selectedQuestions = selectQuestions(allQuestions, mode, customRatios);
-      const shuffledQuestions = shuffleArray(selectedQuestions);
-      
-      dispatch({ type: 'LOAD_QUESTIONS', payload: shuffledQuestions });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: '문제를 불러오는데 실패했습니다.' });
-    } finally {
-      dispatch({ type: 'SET_LOADING', payload: false });
-    }
-  }, [dispatch]);
-
-  // 답변 제출
-  const submitAnswer = useCallback((questionId: string, selectedAnswer: string) => {
-    const question = state.questions[state.currentQuestion];
-    const isCorrect = selectedAnswer === question.correctAnswer;
-    
-    dispatch({
-      type: 'ANSWER_QUESTION',
-      payload: {
-        questionId,
-        selectedAnswer,
-        isCorrect,
-        timeSpent: Date.now() // 실제로는 시작 시간 기록 필요
-      }
-    });
-
-    // 마지막 문제면 결과 계산
-    if (state.currentQuestion === state.questions.length - 1) {
-      setTimeout(() => {
-        dispatch({ type: 'CALCULATE_RESULT' });
-      }, 120);
-    }
-  }, [state.currentQuestion, state.questions, dispatch]);
-
-  return {
-    ...state,
-    loadQuestions,
-    submitAnswer,
-    resetQuiz: () => dispatch({ type: 'RESET_QUIZ' })
-  };
-};
-```
+### 레이아웃 원칙
+- **모바일 퍼스트**: 320px 최소 폭
+- **미니멀 디자인**: 불필요한 요소 제거
+- **광고 친화적**: 상단 배너 영역 확보
+- **접근성**: WCAG 2.1 AA 준수
 
 ---
 
-## 🎭 컴포넌트 간 데이터 흐름
+## 🚀 주요 변경사항
 
-```mermaid
-graph TD
-    A[AppShell] --> B[QuizProvider]
-    B --> C[NicknameForm]
-    B --> D[ModeSelector]
-    B --> E[QuizContainer]
-    B --> F[RewardScreen]
-    
-    E --> G[QuestionCard]
-    G --> H[ProgressBar]
-    G --> I[AnswerChoice]
-    
-    F --> J[ResultCard]
-    F --> K[ShareModal]
-    F --> L[ExplanationAccordion]
-    
-    M[useQuiz] --> B
-    N[useShare] --> K
-    O[useAnalytics] --> P[AnalyticsContext]
-```
+### 1. 새로운 컴포넌트
+- `AdBanner`: 광고 배너 컴포넌트
+- 통합 모드 관련 컴포넌트 제거
+
+### 2. UI/UX 개선
+- HomePage 완전 개편 (새로운 레이아웃)
+- QuizPage 하단 정보 제거 (미니멀 디자인)
+- RewardScreen 점수 표시 강화 및 설명보기 기능 추가
+
+### 3. 디자인 시스템
+- 흰색 중심 테마로 변경
+- Lucide 아이콘 도입
+- 불필요한 색상 제거 (미니멀)
+
+### 4. 기능 변경
+- 표준 모드만 유지 (통합 모드 제거)
+- 점수는 결과 화면에서만 표시
+- 문제별 설명은 접기/펼치기 형태로 제공
 
 ---
 
-## 🔧 유틸리티 함수
+## 📋 개발 우선순위
 
-### 1. 문제 선택 로직
+### Phase 1 (완료됨)
+- [x] AdBanner 컴포넌트 생성
+- [x] HomePage 레이아웃 개편
+- [x] QuizPage 미니멀 디자인 적용
+- [x] RewardScreen 기능 강화
+- [x] 색상 테마 업데이트
+- [x] Lucide 아이콘 적용
 
-```typescript
-// src/lib/questionSelection.ts
-export const selectQuestions = (
-  allQuestions: EmotionQuestion[],
-  mode: QuizMode,
-  customRatios?: CustomRatios
-): EmotionQuestion[] => {
-  if (mode === 'standard') {
-    return [
-      ...getRandomQuestions(allQuestions, 'face2text', 4),
-      ...getRandomQuestions(allQuestions, 'text2face', 3),
-      ...getRandomQuestions(allQuestions, 'eyes2text', 3)
-    ];
-  } else if (mode === 'integrated' && customRatios) {
-    const total = 10;
-    return [
-      ...getRandomQuestions(allQuestions, 'face2text', Math.round(total * customRatios.face2text)),
-      ...getRandomQuestions(allQuestions, 'text2face', Math.round(total * customRatios.text2face)),
-      ...getRandomQuestions(allQuestions, 'eyes2text', Math.round(total * customRatios.eyes2text))
-    ];
-  }
-  
-  throw new Error('Invalid quiz mode or missing custom ratios');
-};
-
-const getRandomQuestions = (
-  questions: EmotionQuestion[],
-  type: QuestionType,
-  count: number
-): EmotionQuestion[] => {
-  const filtered = questions.filter(q => q.type === type);
-  return shuffleArray(filtered).slice(0, count);
-};
-```
-
-### 2. 점수 계산
-
-```typescript
-// src/lib/scoring.ts
-export const calculateScore = (answers: UserAnswer[], questions: EmotionQuestion[]): number => {
-  const correctAnswers = answers.filter(answer => answer.isCorrect).length;
-  return Math.round((correctAnswers / questions.length) * 10);
-};
-
-export const getGrade = (score: number): string => {
-  if (score >= 9) return '감정 탐정 마스터';
-  if (score >= 6) return '감정 탐정 전문가';
-  if (score >= 3) return '감정 탐정 초보자';
-  return '감정 탐정 견습생';
-};
-```
+### Phase 2 (향후)
+- [ ] 성능 최적화 (이미지 로딩, 코드 스플리팅)
+- [ ] 접근성 개선 (ARIA 레이블, 키보드 네비게이션)
+- [ ] 다국어 지원 확장
+- [ ] PWA 기능 추가
 
 ---
 
-## 🧪 컴포넌트 테스트 전략
-
-### 1. 단위 테스트 (Vitest)
-
-```typescript
-// src/components/quiz/__tests__/QuestionCard.test.tsx
-describe('QuestionCard', () => {
-  it('renders question with image for face2text type', () => {
-    const mockQuestion: EmotionQuestion = {
-      id: '1',
-      type: 'face2text',
-      image: '/test-image.jpg',
-      choices: [/* ... */],
-      correctAnswer: 'happy'
-    };
-
-    render(
-      <QuestionCard 
-        question={mockQuestion}
-        onAnswer={jest.fn()}
-        currentQuestion={1}
-        totalQuestions={10}
-      />
-    );
-
-    expect(screen.getByRole('img')).toBeInTheDocument();
-  });
-
-  it('calls onAnswer after 120ms when answer is selected', async () => {
-    const mockOnAnswer = jest.fn();
-    // ... 테스트 구현
-  });
-});
-```
-
-### 2. 통합 테스트
-
-```typescript
-// src/__tests__/quiz-flow.test.tsx
-describe('Quiz Flow Integration', () => {
-  it('completes full quiz flow from nickname to results', async () => {
-    render(
-      <QuizProvider>
-        <App />
-      </QuizProvider>
-    );
-
-    // 닉네임 입력
-    fireEvent.change(screen.getByPlaceholderText('예: 김감정'), {
-      target: { value: '테스터' }
-    });
-    
-    // ... 전체 플로우 테스트
-  });
-});
-```
-
----
-
-## 📊 성능 최적화 전략
-
-### 1. 코드 스플리팅
-
-```typescript
-// src/App.tsx
-const NicknameForm = lazy(() => import('./components/forms/NicknameForm'));
-const QuizContainer = lazy(() => import('./components/quiz/QuizContainer'));
-const RewardScreen = lazy(() => import('./components/results/RewardScreen'));
-
-// 라우팅에서 Suspense 사용
-<Suspense fallback={<LoadingSpinner />}>
-  <Routes>
-    <Route path="/" element={<NicknameForm />} />
-    <Route path="/quiz" element={<QuizContainer />} />
-    <Route path="/results" element={<RewardScreen />} />
-  </Routes>
-</Suspense>
-```
-
-### 2. 메모이제이션
-
-```typescript
-// 무거운 계산 결과 캐싱
-const QuestionCard = React.memo(({ question, ...props }) => {
-  const processedChoices = useMemo(
-    () => shuffleArray(question.choices),
-    [question.id]
-  );
-
-  return (
-    // ... 컴포넌트 렌더링
-  );
-});
-```
-
----
-
-## 🔍 디버깅 및 개발 도구
-
-### 1. React DevTools 지원
-
-```typescript
-// src/components/shared/DevTools.tsx
-export const DevTools = () => {
-  if (process.env.NODE_ENV !== 'development') return null;
-  
-  return (
-    <div className="fixed bottom-4 right-4 bg-black text-white p-2 rounded">
-      <details>
-        <summary>Debug Info</summary>
-        <QuizStateDebugger />
-      </details>
-    </div>
-  );
-};
-```
-
-### 2. 에러 경계
-
-```typescript
-// src/components/shared/ErrorBoundary.tsx
-export const ErrorBoundary: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <ErrorBoundaryComponent
-      fallback={({ error, resetError }) => (
-        <div className="p-8 text-center">
-          <h2>문제가 발생했습니다</h2>
-          <p>{error.message}</p>
-          <Button onClick={resetError}>다시 시도</Button>
-        </div>
-      )}
-    >
-      {children}
-    </ErrorBoundaryComponent>
-  );
-};
-```
-
----
-
-**다음 단계**: STEP 2 완료 검증 및 STEP 3 준비 
+**참고**: 이 문서는 실제 구현된 컴포넌트 구조를 반영하여 업데이트되었습니다. 모든 변경사항은 사용자 요구사항과 미니멀 디자인 원칙에 따라 적용되었습니다. 
