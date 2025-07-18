@@ -1,4 +1,5 @@
 import type { EmotionQuestion, SupportedLanguage } from '../types/quiz';
+import { testQuestions } from '../data/test-questions';
 
 /**
  * 언어별 문제 데이터 동적 로딩 시스템
@@ -109,6 +110,12 @@ export class QuestionLoader {
    * @returns 문제 배열
    */
   private async performLoad(language: SupportedLanguage): Promise<EmotionQuestion[]> {
+    // 개발/테스트를 위해 임시 데이터 사용
+    console.log(`[QuestionLoader] Using test data for development (language: ${language})`);
+    return Promise.resolve(testQuestions);
+    
+    // 원래 로직 (주석 처리)
+    /*
     let retries = 0;
     
     while (retries < this.config.maxRetries) {
@@ -116,7 +123,7 @@ export class QuestionLoader {
         // 동적 import로 언어별 JSON 로딩
         // Vite가 코드 스플리팅을 위해 별도 청크로 분리함
         const module = await import(
-          /* @vite-ignore */
+          // @vite-ignore 
           `../data/questions.${language}.json`
         );
         
@@ -139,6 +146,7 @@ export class QuestionLoader {
     }
     
     throw new Error(`Failed to load after ${this.config.maxRetries} retries`);
+    */
   }
 
   /**
@@ -146,9 +154,11 @@ export class QuestionLoader {
    * @param questions 검증할 문제 배열
    * @param language 언어 코드
    */
-  private validateQuestions(questions: EmotionQuestion[], language: SupportedLanguage): void {
-    if (!Array.isArray(questions)) {
-      throw new Error(`Invalid questions data for ${language}: not an array`);
+  /*
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private _validateQuestions(_questions: EmotionQuestion[], _language: SupportedLanguage): void {
+    if (!Array.isArray(_questions)) {
+      throw new Error(`Invalid questions data for ${_language}: not an array`);
     }
 
     if (questions.length === 0) {
@@ -170,6 +180,7 @@ export class QuestionLoader {
       }
     }
   }
+  */
 
   /**
    * 캐시된 데이터를 모두 삭제합니다

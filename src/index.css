@@ -1,75 +1,62 @@
 @import "tailwindcss";
 
 @theme {
-  /* 프로젝트 색상 팔레트 */
-  --color-primary: #7366fd;
-  --color-primary-foreground: #FFFFFF;
-  --color-secondary: #d5d1f4;
-  --color-secondary-foreground: #333333;
-  --color-accent: #d5d1f4;
-  --color-accent-foreground: #333333;
+  /* FaceRead 프로젝트 컬러 팔레트 - gemini.md 기반 */
+  /* 주 브랜드색 (Primary): #7366fd */
+  --color-primary: oklch(0.637 0.237 244);
+  --color-primary-foreground: oklch(1 0 0);
   
-  /* 배경 색상 */
-  --color-background: #f4f3ef;
-  --color-background-light: #FFFFFF;
-  --color-foreground: #333333;
+  /* 호버 시 주 브랜드색 (Primary Hover): #9e95ff */
+  --color-primary-hover: oklch(0.72 0.2 248);
   
-  /* 그레이 스케일 */
-  --color-gray-50: #F9FAFB;
-  --color-gray-100: #F3F4F6;
-  --color-gray-200: #E5E7EB;
-  --color-gray-300: #D1D5DB;
-  --color-gray-400: #9CA3AF;
-  --color-gray-500: #6B7280;
-  --color-gray-600: #4B5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1F2937;
-  --color-gray-900: #111827;
+  /* 보조 브랜드색 (Secondary/Accent): #d5d1f4 */
+  --color-secondary: oklch(0.86 0.08 252);
+  --color-secondary-foreground: oklch(0.2 0 0);
+  --color-accent: oklch(0.86 0.08 252);
+  --color-accent-foreground: oklch(0.2 0 0);
+  
+  /* 배경색: #f4f3ef */
+  --color-background: oklch(0.958 0.008 65);
+  --color-background-light: oklch(1 0 0);
+  
+  /* 폰트색: #333333 */
+  --color-foreground: oklch(0.24 0 0);
+  
+  /* 옅은 회색 (Light Neutral): #e9e8e5 */
+  --color-neutral-light: oklch(0.935 0.005 55);
+  
+  /* 닉네임 입력 필드 배경: #f7f7f7 */
+  --color-input: oklch(0.98 0 0);
+  
+  /* 플레이스홀더 텍스트: #666666 */
+  --color-placeholder-light: oklch(0.44 0 0);
   
   /* UI 컴포넌트 색상 */
-  --color-card: #FFFFFF;
-  --color-card-foreground: #333333;
-  --color-border: #e9e8e5;
-  --color-input: #f7f7f7;
-  --color-ring: #7366fd;
-  --color-destructive: #EF4444;
-  --color-muted: #F9FAFB;
-  --color-muted-foreground: #6B7280;
-  
-  --color-placeholder-light: #666666; /* A lighter shade for placeholders */
-  
-  /* 반지름 */
-  --radius: 0.625rem;
-  --radius-sm: 0.375rem;
-  --radius-lg: 0.875rem;
-  --radius-xl: 1rem;
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.24 0 0);
+  --color-border: oklch(0.935 0.005 55);
+  --color-ring: oklch(0.637 0.237 244);
+  --color-destructive: oklch(0.6 0.2 0);
+  --color-destructive-foreground: oklch(1 0 0);
+  --color-muted: oklch(0.935 0.005 55);
+  --color-muted-foreground: oklch(0.44 0 0);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.24 0 0);
 }
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  --primary-rgb: 115, 102, 253;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--color-background);
-  color: var(--color-foreground);
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 } 

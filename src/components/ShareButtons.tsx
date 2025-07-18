@@ -28,7 +28,10 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
       console.error('Failed to copy: ', err)
       toast(t('share.copyLinkFail'), {
         description: t('share.copyLinkFailDescription'),
-        action: { label: t('common.confirm') },
+        action: { 
+          label: t('common.confirm'),
+          onClick: () => {} 
+        },
         duration: 5000,
       })
     }
@@ -42,11 +45,11 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
   }
 
   const handleKakaoShare = () => {
-    // TODO: Kakao SDK 연동 필요
-    toast(t('share.kakaoNotReady'), {
-      description: t('share.kakaoNotReadyDescription'),
-    })
+    const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`
+    window.open(kakaoUrl, '_blank', 'width=600,height=400')
   }
+
+  const shareButtonClass = "w-16 h-16 rounded-full border-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 focus-visible:ring-primary"
 
   return (
     <div className="flex justify-center items-center gap-4">
@@ -57,7 +60,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
               onClick={handleKakaoShare}
               variant="outline"
               size="icon"
-              className="w-14 h-14 rounded-full border-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 focus-visible:ring-primary"
+              className={shareButtonClass}
               aria-label={t('share.kakao')}
             >
               <MessageCircle className="h-6 w-6" />
@@ -67,16 +70,14 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
             <p>{t('share.kakao')}</p>
           </TooltipContent>
         </Tooltip>
-      </TooltipProvider>
 
-      <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
               onClick={handleTwitterShare}
               variant="outline"
               size="icon"
-              className="w-14 h-14 rounded-full border-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 focus-visible:ring-primary"
+              className={shareButtonClass}
               aria-label={t('share.twitter')}
             >
               <Twitter className="h-6 w-6" />
@@ -86,16 +87,14 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
             <p>{t('share.twitter')}</p>
           </TooltipContent>
         </Tooltip>
-      </TooltipProvider>
 
-      <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
               onClick={handleCopyLink}
               variant="outline"
               size="icon"
-              className="w-14 h-14 rounded-full border-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 focus-visible:ring-primary"
+              className={shareButtonClass}
               aria-label={t('share.copyLink')}
             >
               <Link className="h-6 w-6" />

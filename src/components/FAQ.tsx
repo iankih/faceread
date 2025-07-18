@@ -59,7 +59,7 @@ const FAQ: React.FC = () => {
               <AccordionTrigger className="text-left font-medium hover:no-underline">
                 {t(item.questionKey)}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-700 whitespace-pre-line">
+              <AccordionContent className="text-foreground whitespace-pre-line">
                 {t(item.answerKey)}
               </AccordionContent>
             </AccordionItem>

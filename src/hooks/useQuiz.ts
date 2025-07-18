@@ -6,23 +6,16 @@ import type {
   UserAnswer, 
   QuizResult, 
   GameMode,
-  SupportedLanguage 
+  SupportedLanguage,
+  QuizAction,
+  AppStep
 } from '../types/quiz'
 
-// 퀴즈 액션 타입 정의
-type QuizAction = 
-  | { type: 'LOAD_QUESTIONS_START' }
-  | { type: 'LOAD_QUESTIONS_SUCCESS'; payload: EmotionQuestion[] }
-  | { type: 'LOAD_QUESTIONS_ERROR'; payload: string }
-  | { type: 'START_QUIZ'; payload: { mode: GameMode; language: SupportedLanguage } }
-  | { type: 'SUBMIT_ANSWER'; payload: UserAnswer }
-  | { type: 'NEXT_QUESTION' }
-  | { type: 'FINISH_QUIZ' }
-  | { type: 'RESET_QUIZ' }
-  | { type: 'SET_NICKNAME'; payload: string }
+// QuizAction은 types/quiz.ts에서 import
 
 // 초기 상태
 const initialState: QuizState = {
+  currentStep: 'intro',
   questions: [],
   currentQuestionIndex: 0,
   answers: [],
@@ -83,7 +76,38 @@ const selectIntegratedModeQuestions = (questions: EmotionQuestion[]): EmotionQue
 
 // 퀴즈 리듀서
 const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
+  console.log('=== REDUCER DEBUG ===')
+  console.log('Action type:', action.type)
+  console.log('Current state:', {
+    currentStep: state.currentStep,
+    currentQuestionIndex: state.currentQuestionIndex,
+    questionsLength: state.questions.length,
+    answersLength: state.answers.length,
+    isQuizStarted: state.isQuizStarted,
+    isQuizFinished: state.isQuizFinished
+  })
+  
   switch (action.type) {
+    case 'SET_STEP':
+      return {
+        ...state,
+        currentStep: action.payload
+      }
+      
+    case 'NEXT_STEP': {
+      const stepOrder: AppStep[] = ['intro', 'quiz', 'result']
+      const currentIndex = stepOrder.indexOf(state.currentStep)
+      const nextStep = stepOrder[currentIndex + 1]
+      return nextStep ? { ...state, currentStep: nextStep } : state
+    }
+    
+    case 'PREV_STEP': {
+      const stepOrder: AppStep[] = ['intro', 'quiz', 'result']
+      const currentIndex = stepOrder.indexOf(state.currentStep)
+      const prevStep = stepOrder[currentIndex - 1]
+      return prevStep ? { ...state, currentStep: prevStep } : state
+    }
+      
     case 'LOAD_QUESTIONS_START':
       return {
         ...state,
@@ -118,6 +142,7 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
       
       return {
         ...state,
+        currentStep: 'quiz' as AppStep,
         gameMode: mode,
         language,
         questions: selectedQuestions,
@@ -130,27 +155,58 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
     }
       
     case 'SUBMIT_ANSWER': {
+      console.log('SUBMIT_ANSWER reducer - payload:', action.payload)
       const newAnswers = [...state.answers, action.payload]
       const newScore = calculateScore(newAnswers)
       
-      return {
+      const newState = {
         ...state,
         answers: newAnswers,
         score: newScore
       }
+      
+      console.log('SUBMIT_ANSWER reducer - new state:', {
+        answersLength: newAnswers.length,
+        score: newScore,
+        currentQuestionIndex: newState.currentQuestionIndex
+      })
+      
+      return newState
     }
       
-    case 'NEXT_QUESTION':
-      return {
+    case 'NEXT_QUESTION': {
+      const newIndex = state.currentQuestionIndex + 1
+      console.log('NEXT_QUESTION reducer - moving from index', state.currentQuestionIndex, 'to', newIndex)
+      
+      const newState = {
         ...state,
-        currentQuestionIndex: state.currentQuestionIndex + 1
+        currentQuestionIndex: newIndex
       }
       
-    case 'FINISH_QUIZ':
-      return {
+      console.log('NEXT_QUESTION reducer - new state:', {
+        currentQuestionIndex: newState.currentQuestionIndex,
+        questionsLength: newState.questions.length
+      })
+      
+      return newState
+    }
+      
+    case 'FINISH_QUIZ': {
+      console.log('FINISH_QUIZ reducer - finishing quiz')
+      
+      const newState = {
         ...state,
+        currentStep: 'result' as AppStep,
         isQuizFinished: true
       }
+      
+      console.log('FINISH_QUIZ reducer - new state:', {
+        currentStep: newState.currentStep,
+        isQuizFinished: newState.isQuizFinished
+      })
+      
+      return newState
+    }
       
     case 'RESET_QUIZ':
       return {
@@ -165,6 +221,7 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
       }
       
     default:
+      console.log('Unknown action type:', action.type)
       return state
   }
 }
@@ -193,10 +250,30 @@ export const useQuiz = () => {
   
   // 답변 제출
   const submitAnswer = useCallback((questionId: string, selectedAnswerId: string) => {
+    console.log('=== SUBMIT ANSWER DEBUG START ===')
+    console.log('QuestionId:', questionId)
+    console.log('SelectedAnswerId:', selectedAnswerId)
+    console.log('Current state.currentQuestionIndex:', state.currentQuestionIndex)
+    console.log('Questions length:', state.questions.length)
+    console.log('Is quiz started:', state.isQuizStarted)
+    console.log('Is quiz finished:', state.isQuizFinished)
+    
     const currentQuestion = state.questions[state.currentQuestionIndex]
-    if (!currentQuestion) return
+    if (!currentQuestion) {
+      console.error('❌ No current question found at index:', state.currentQuestionIndex)
+      console.log('Available questions:', state.questions.map(q => ({ id: q.id, type: q.type })))
+      return
+    }
+    
+    console.log('✅ Current question found:', {
+      id: currentQuestion.id,
+      type: currentQuestion.type,
+      correctAnswer: currentQuestion.correctAnswer
+    })
     
     const isCorrect = currentQuestion.correctAnswer === selectedAnswerId
+    console.log('Answer correctness:', isCorrect)
+    
     const answer: UserAnswer = {
       questionId,
       selectedAnswerId,
@@ -205,17 +282,26 @@ export const useQuiz = () => {
       timeSpent: 0 // TODO: 시간 측정 기능 추가
     }
     
+    console.log('Dispatching SUBMIT_ANSWER with:', answer)
     dispatch({ type: 'SUBMIT_ANSWER', payload: answer })
     
-    // 다음 문제로 이동 또는 퀴즈 종료
-    setTimeout(() => {
-      if (state.currentQuestionIndex < state.questions.length - 1) {
-        dispatch({ type: 'NEXT_QUESTION' })
-      } else {
-        dispatch({ type: 'FINISH_QUIZ' })
-      }
-    }, 1200) // 1.2초 후 자동 진행 (사용자가 결과를 확인할 시간)
-  }, [state.currentQuestionIndex, state.questions])
+    // 다음 문제로 이동 또는 퀴즈 종료 판단
+    const isLastQuestion = state.currentQuestionIndex >= state.questions.length - 1
+    console.log('Question progression check:')
+    console.log('- Current index:', state.currentQuestionIndex)
+    console.log('- Total questions:', state.questions.length)
+    console.log('- Is last question:', isLastQuestion)
+    
+    if (isLastQuestion) {
+      console.log('🏁 Quiz finished - dispatching FINISH_QUIZ')
+      dispatch({ type: 'FINISH_QUIZ' })
+    } else {
+      console.log('➡️ Moving to next question - dispatching NEXT_QUESTION')
+      dispatch({ type: 'NEXT_QUESTION' })
+    }
+    
+    console.log('=== SUBMIT ANSWER DEBUG END ===')
+  }, [state.currentQuestionIndex, state.questions, state.isQuizStarted, state.isQuizFinished])
   
   // 닉네임 설정
   const setNickname = useCallback((nickname: string) => {
@@ -228,9 +314,32 @@ export const useQuiz = () => {
     return false
   }, [])
   
+  // Step 관리 함수들
+  const setStep = useCallback((step: AppStep) => {
+    dispatch({ type: 'SET_STEP', payload: step })
+  }, [])
+  
+  const nextStep = useCallback(() => {
+    dispatch({ type: 'NEXT_STEP' })
+  }, [])
+  
+  const prevStep = useCallback(() => {
+    dispatch({ type: 'PREV_STEP' })
+  }, [])
+  
   // 퀴즈 리셋
   const resetQuiz = useCallback(() => {
     dispatch({ type: 'RESET_QUIZ' })
+  }, [])
+  
+  // 닉네임 초기화 (처음으로 버튼용)
+  const resetToHome = useCallback(() => {
+    console.log('Resetting to home...')
+    // 완전 초기화 - questions도 제거
+    dispatch({ type: 'RESET_QUIZ' })
+    dispatch({ type: 'LOAD_QUESTIONS_SUCCESS', payload: [] }) // questions 초기화
+    dispatch({ type: 'SET_NICKNAME', payload: '' })
+    dispatch({ type: 'SET_STEP', payload: 'intro' })
   }, [])
   
   // 현재 문제
@@ -270,6 +379,12 @@ export const useQuiz = () => {
     submitAnswer,
     setNickname,
     resetQuiz,
+    
+    // Step 관리
+    setStep,
+    nextStep,
+    prevStep,
+    resetToHome,
     
     // 유틸리티
     calculateGrade,

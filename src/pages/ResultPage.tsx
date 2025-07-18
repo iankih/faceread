@@ -1,21 +1,19 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useQuizContext } from '../contexts/QuizContext'
 import RewardScreen from '../components/RewardScreen'
 
 const ResultPage: React.FC = () => {
-  const navigate = useNavigate()
   const quiz = useQuizContext()
   
-  // 퀴즈가 완료되지 않았으면 홈으로 리다이렉트
+  // 퀴즈가 완료되지 않았으면 초기 화면으로 이동
   if (!quiz.isQuizFinished || !quiz.quizResult) {
-    navigate('/')
+    quiz.setStep('intro')
     return null
   }
 
   const handleRestart = () => {
     quiz.resetQuiz()
-    navigate('/')
+    quiz.setStep('intro')
   }
 
   return (

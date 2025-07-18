@@ -7,7 +7,7 @@ export interface EmotionQuestion {
   emotionKey: string; // i18n 키 또는 감정 텍스트
   choices: AnswerChoice[];
   correctAnswer: string;
-  explanation: {
+  explanation?: {
     ko: string;
     en: string;
     es: string;
@@ -49,6 +49,9 @@ export interface WrongAnswer {
 }
 
 export interface QuizState {
+  // 앱 플로우 관리
+  currentStep: AppStep;
+  
   // 사용자 정보
   nickname: string;
   
@@ -88,6 +91,9 @@ export interface CustomRatios {
 
 export type SupportedLanguage = 'ko' | 'en' | 'es';
 
+// 앱 단계 타입 (단일 페이지 구조용)
+export type AppStep = 'intro' | 'quiz' | 'result';
+
 export interface QuizConfig {
   standardModeDistribution: {
     face2text: number;
@@ -100,6 +106,9 @@ export interface QuizConfig {
 
 // 퀴즈 액션 타입들
 export type QuizAction = 
+  | { type: 'SET_STEP'; payload: AppStep }
+  | { type: 'NEXT_STEP' }
+  | { type: 'PREV_STEP' }
   | { type: 'SET_NICKNAME'; payload: string }
   | { type: 'SET_MODE'; payload: QuizMode }
   | { type: 'SET_LANGUAGE'; payload: SupportedLanguage }

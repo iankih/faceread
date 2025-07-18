@@ -4,10 +4,16 @@
     "noAdMessage": "Challenge today's emotion quiz! This is an ad space."
   },
   "quiz": {
-    "title": "Emotion Reading Quiz",
+    "title": "Social Emotional Intelligence Test",
     "description": "How well can you read other people's expressions?",
     "loading": "Loading questions...",
-    "start": "Read Emotions with Face"
+    "start": "Start EQ Test",
+    "error": {
+      "load": "Failed to load questions",
+      "title": "An error occurred",
+      "backToHome": "Back to Home"
+    },
+    "preparing": "Preparing quiz..."
   },
   "nickname": {
     "label": "Nickname",
