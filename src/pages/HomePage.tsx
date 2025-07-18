@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8">
           {/* Left Hero Visual */}
-          <div className="flex-1 max-w-md w-full bg-background-light border border-border rounded-2xl shadow-sm p-8 flex flex-col items-center justify-center min-h-[300px]">
+          <div className="flex-1 max-w-md w-full bg-card border border-border rounded-2xl shadow-sm p-8 flex flex-col items-center justify-center min-h-[300px]">
             <div className="text-6xl mb-4" role="img" aria-label="Emotion detection visualization">
               🎭✨
             </div>
@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Right Section - 퀴즈 영역 */}
-          <div className="flex-1 max-w-md w-full bg-background-light border border-border rounded-2xl shadow-sm p-8">
+          <div className="flex-1 max-w-md w-full bg-card border border-border rounded-2xl shadow-sm p-8">
             <h2 className="text-left text-xl font-bold text-foreground mb-4">
               🎯 {t('quiz.title')}
             </h2>

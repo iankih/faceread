@@ -139,3 +139,4 @@ Sure, here are the rules formatted as you requested, within a code block and in 
 - Utilize Comments (When Necessary): Add concise comments for complex or business-critical logic to aid understanding for both AI and fellow developers.
 - Keep Functions/Components Small: Maintain short function and component lengths for easy readability and comprehension.
 - Maintain Consistent Code Style: Ensure a consistent code style across the project by adhering to ESLint and Prettier configurations.
+- **답변은 한국어로 한다**

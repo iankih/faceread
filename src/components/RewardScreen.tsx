@@ -54,7 +54,7 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
     <div className="min-h-screen bg-background-light p-4">
       <div className="max-w-lg mx-auto">
         {/* 메인 결과 카드 */}
-        <div className="bg-background-light border border-border rounded-3xl shadow-sm p-8 mb-6">
+        <div className="bg-card border border-border rounded-2xl shadow-sm p-8 mb-6">
           {/* 등급 표시 */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-light border border-border mb-4">
@@ -142,7 +142,7 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
         <div className="space-y-4">
           {/* 틀린 답 보기 버튼 */}
           {result.incorrectAnswers.length > 0 && (
-            <div className="bg-background-light border border-border rounded-2xl shadow-sm p-6">
+            <div className="bg-card border border-border rounded-2xl shadow-sm p-6">
               <Button
                 onClick={() => setShowIncorrectAnswers(!showIncorrectAnswers)}
                 variant="ghost"
@@ -210,7 +210,7 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
           )}
 
           {/* 전체 답 보기 버튼 */}
-          <div className="bg-background-light border border-border rounded-2xl shadow-sm p-6">
+          <div className="bg-card border border-border rounded-2xl shadow-sm p-6">
             <Button
               onClick={() => setShowAllAnswers(!showAllAnswers)}
               variant="ghost"

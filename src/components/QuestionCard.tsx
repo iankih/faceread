@@ -32,16 +32,16 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
   questionType,
   isProcessing = false
 }) => {
-  const baseClasses = "w-full p-4 rounded-lg border-2 transition-all duration-200 font-medium text-left"
+  const baseClasses = "w-full min-h-[44px] p-4 rounded-xl border-2 transition-all duration-200 font-medium text-left"
   
   // 결과 표시 시 색상
   const resultClasses = showResult ? (
-    isCorrect ? "border-green-500 bg-green-50 text-green-700" :
-    isIncorrect ? "border-red-500 bg-red-50 text-red-700" :
-    "border-border bg-input text-muted-foreground"
+    isCorrect ? "border-mint bg-mint/10 text-mint" :
+    isIncorrect ? "border-coral bg-coral/10 text-coral" :
+    "border-border bg-card text-muted-foreground"
   ) : (
     isSelected ? "border-primary bg-primary/10 text-primary" :
-    "border-border bg-background-light text-foreground hover:border-primary/50 hover:bg-primary/5"
+    "border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5"
   )
   
   const isDisabled = showResult || isProcessing
@@ -51,8 +51,8 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
       onClick={onClick}
       disabled={isDisabled}
       className={cn(baseClasses, resultClasses, {
-        "cursor-not-allowed": isDisabled,
-        "cursor-pointer hover:scale-[1.02] active:scale-[0.98]": !isDisabled
+        "cursor-not-allowed opacity-50": isDisabled,
+        "cursor-pointer hover:scale-[1.01] active:scale-[0.98] hover:shadow-md": !isDisabled
       })}
     >
       <div className="flex items-center gap-3">
@@ -277,16 +277,16 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   }
   
   return (
-    <div className={cn("w-full max-w-md mx-auto bg-background-light rounded-2xl shadow-xl p-6", className)}>
+    <div className={cn("w-full max-w-md mx-auto bg-card border border-border rounded-2xl shadow-sm p-6", className)}>
       {/* 진행률 바 */}
       <div className="mb-6">
         <div className="flex justify-between text-sm text-muted-foreground mb-2">
           <span>문제 {questionNumber}</span>
           <span>{totalQuestions}개 중</span>
         </div>
-        <div className="w-full bg-neutral-light rounded-full h-2">
+        <div className="w-full bg-muted rounded-full h-2">
           <div 
-            className="bg-primary h-2 rounded-full transition-all duration-300"
+            className="bg-soft-blue h-2 rounded-full transition-all duration-300"
             style={{ width: `${(questionNumber / totalQuestions) * 100}%` }}
           />
         </div>
@@ -321,7 +321,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       {/* 처리 상태 및 오류 표시 */}
       {isProcessing && (
         <div className="mt-6 flex justify-center items-center gap-2">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
           <span className="text-sm text-muted-foreground">답변 처리 중...</span>
         </div>
       )}
@@ -348,7 +348,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       {/* 로딩 상태 */}
       {isLoading && (
         <div className="mt-6 flex justify-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent"></div>
         </div>
       )}
     </div>

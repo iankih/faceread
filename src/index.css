@@ -1,47 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  /* FaceRead 프로젝트 컬러 팔레트 - gemini.md 기반 */
-  /* 주 브랜드색 (Primary): #7366fd */
-  --color-primary: oklch(0.637 0.237 244);
-  --color-primary-foreground: oklch(1 0 0);
+  /* FaceRead UI 샘플 기반 색상 시스템 - 골든 옐로우 주조 */
   
-  /* 호버 시 주 브랜드색 (Primary Hover): #9e95ff */
-  --color-primary-hover: oklch(0.72 0.2 248);
+  /* Golden Yellow Primary */
+  --color-primary: oklch(0.8 0.15 85);           /* #FCD34D */
+  --color-primary-dark: oklch(0.72 0.18 75);     /* #F59E0B */
+  --color-primary-light: oklch(0.95 0.08 90);    /* #FEF3C7 */
+  --color-primary-foreground: oklch(0.3 0.05 220); /* #2C3E50 navy for text */
   
-  /* 보조 브랜드색 (Secondary/Accent): #d5d1f4 */
-  --color-secondary: oklch(0.86 0.08 252);
-  --color-secondary-foreground: oklch(0.2 0 0);
-  --color-accent: oklch(0.86 0.08 252);
-  --color-accent-foreground: oklch(0.2 0 0);
+  /* Accent Colors */
+  --color-coral: oklch(0.7 0.2 15);              /* #FF6B6B */
+  --color-mint: oklch(0.75 0.15 175);            /* #4ECDC4 */
+  --color-soft-blue: oklch(0.72 0.15 240);       /* #74B9FF */
+  --color-lavender: oklch(0.7 0.18 280);         /* #A29BFE */
   
-  /* 배경색: #f4f3ef */
-  --color-background: oklch(0.958 0.008 65);
-  --color-background-light: oklch(1 0 0);
+  /* Neutral System */
+  --color-navy: oklch(0.3 0.05 220);             /* #2C3E50 */
+  --color-gray-dark: oklch(0.45 0.02 210);       /* #636E72 */
+  --color-gray-medium: oklch(0.85 0.01 210);     /* #DDD */
+  --color-gray-light: oklch(0.98 0.005 210);     /* #F8F9FA */
   
-  /* 폰트색: #333333 */
-  --color-foreground: oklch(0.24 0 0);
+  /* Status Colors */
+  --color-success: oklch(0.65 0.15 165);         /* #00B894 */
+  --color-error: oklch(0.62 0.15 25);            /* #E17055 */
+  --color-warning: oklch(0.75 0.12 70);          /* #FDCB6E */
+  --color-info: oklch(0.6 0.2 280);              /* #6C5CE7 */
   
-  /* 옅은 회색 (Light Neutral): #e9e8e5 */
-  --color-neutral-light: oklch(0.935 0.005 55);
-  
-  /* 닉네임 입력 필드 배경: #f7f7f7 */
-  --color-input: oklch(0.98 0 0);
-  
-  /* 플레이스홀더 텍스트: #666666 */
-  --color-placeholder-light: oklch(0.44 0 0);
-  
-  /* UI 컴포넌트 색상 */
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.24 0 0);
-  --color-border: oklch(0.935 0.005 55);
-  --color-ring: oklch(0.637 0.237 244);
-  --color-destructive: oklch(0.6 0.2 0);
-  --color-destructive-foreground: oklch(1 0 0);
-  --color-muted: oklch(0.935 0.005 55);
-  --color-muted-foreground: oklch(0.44 0 0);
-  --color-popover: oklch(1 0 0);
-  --color-popover-foreground: oklch(0.24 0 0);
+  /* 기존 shadcn/ui 호환성을 위한 매핑 */
+  --color-secondary: oklch(0.98 0.005 210);      /* gray-light */
+  --color-secondary-foreground: oklch(0.3 0.05 220); /* navy */
+  --color-accent: oklch(0.95 0.08 90);           /* primary-light */
+  --color-accent-foreground: oklch(0.3 0.05 220); /* navy */
+  --color-background: oklch(0.98 0.005 210);     /* gray-light */
+  --color-foreground: oklch(0.3 0.05 220);       /* navy */
+  --color-card: oklch(1 0 0);                    /* white */
+  --color-card-foreground: oklch(0.3 0.05 220);  /* navy */
+  --color-border: oklch(0.85 0.01 210);          /* gray-medium */
+  --color-input: oklch(1 0 0);                   /* white */
+  --color-ring: oklch(0.8 0.15 85);              /* primary */
+  --color-destructive: oklch(0.62 0.15 25);      /* error */
+  --color-destructive-foreground: oklch(1 0 0);  /* white */
+  --color-muted: oklch(0.85 0.01 210);           /* gray-medium */
+  --color-muted-foreground: oklch(0.45 0.02 210); /* gray-dark */
+  --color-popover: oklch(1 0 0);                  /* white */
+  --color-popover-foreground: oklch(0.3 0.05 220); /* navy */
 }
 
 :root {
