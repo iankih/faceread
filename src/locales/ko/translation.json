@@ -18,7 +18,10 @@
   "nickname": {
     "label": "닉네임",
     "placeholder": "닉네임을 입력하세요",
-    "hint": "영문, 한글, 숫자만 사용 가능 (1-10자)"
+    "hint": "영문, 한글, 숫자만 사용 가능 (1-10자)",
+    "error": {
+      "required": "닉네임을 입력해주세요"
+    }
   },
   "result": {
     "title": "{{nickname}}님의 결과",

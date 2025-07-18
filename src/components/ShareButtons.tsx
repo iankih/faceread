@@ -49,21 +49,21 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
     window.open(kakaoUrl, '_blank', 'width=600,height=400')
   }
 
-  const shareButtonClass = "w-16 h-16 rounded-full border-2 hover:bg-primary/10 hover:text-primary hover:border-primary/30 focus-visible:ring-primary"
+  const shareButtonClass = "w-12 h-12 rounded-xl border-2 border-border bg-card hover:bg-primary/10 hover:text-primary hover:border-primary/50 focus-visible:ring-primary transition-all duration-200"
 
   return (
-    <div className="flex justify-center items-center gap-4">
+    <div className="flex justify-center items-center gap-3">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
               onClick={handleKakaoShare}
-              variant="outline"
+              variant="ghost"
               size="icon"
               className={shareButtonClass}
               aria-label={t('share.kakao')}
             >
-              <MessageCircle className="h-6 w-6" />
+              <MessageCircle className="h-5 w-5" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -75,12 +75,12 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
           <TooltipTrigger asChild>
             <Button
               onClick={handleTwitterShare}
-              variant="outline"
+              variant="ghost"
               size="icon"
               className={shareButtonClass}
               aria-label={t('share.twitter')}
             >
-              <Twitter className="h-6 w-6" />
+              <Twitter className="h-5 w-5" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -92,12 +92,12 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
           <TooltipTrigger asChild>
             <Button
               onClick={handleCopyLink}
-              variant="outline"
+              variant="ghost"
               size="icon"
               className={shareButtonClass}
               aria-label={t('share.copyLink')}
             >
-              <Link className="h-6 w-6" />
+              <Link className="h-5 w-5" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>

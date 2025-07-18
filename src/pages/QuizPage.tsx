@@ -63,22 +63,37 @@ const QuizPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* 처음으로 버튼 */}
-      <div className="mb-6 flex justify-end">
-        <Button
-          onClick={() => quiz.resetToHome()}
-          variant="outline"
-          size="sm"
-        >
-          <Home size={16} className="mr-2" />
-          처음으로
-        </Button>
-      </div>
-
-      {/* Quiz Content */}
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* 상단 진행률 - 고정 */}
+      <header className="bg-card shadow-sm px-4 py-3 sticky top-0 z-10 border-b border-border">
+        <div className="max-w-sm mx-auto">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-muted-foreground">문제 {quiz.currentQuestionIndex + 1}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">총 {quiz.totalQuestions}문제입니다</span>
+              <Button
+                onClick={() => quiz.resetToHome()}
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2"
+              >
+                <Home size={14} />
+              </Button>
+            </div>
+          </div>
+          <div className="w-full bg-muted rounded-full h-2">
+            <div 
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((quiz.currentQuestionIndex + 1) / quiz.totalQuestions) * 100}%` }}
+            />
+          </div>
+        </div>
+      </header>
+      
+      {/* 메인 콘텐츠 - 스크롤 가능 */}
+      <main className="flex-1 p-4 overflow-y-auto">
         <QuestionCard
+          className="max-w-sm mx-auto"
           question={quiz.currentQuestion}
           questionNumber={quiz.currentQuestionIndex + 1}
           totalQuestions={quiz.totalQuestions}
@@ -96,7 +111,7 @@ const QuizPage: React.FC = () => {
             console.log('=== QUIZ PAGE ANSWER HANDLER END ===')
           }}
         />
-      </div>
+      </main>
     </div>
   )
 }

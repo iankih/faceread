@@ -18,7 +18,10 @@
   "nickname": {
     "label": "Nickname",
     "placeholder": "Enter your nickname",
-    "hint": "English, Korean, numbers only (1-10 characters)"
+    "hint": "English, Korean, numbers only (1-10 characters)",
+    "error": {
+      "required": "Please enter your nickname"
+    }
   },
   "result": {
     "title": "{{nickname}}'s Result",

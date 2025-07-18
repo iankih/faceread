@@ -52,7 +52,7 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
       disabled={isDisabled}
       className={cn(baseClasses, resultClasses, {
         "cursor-not-allowed opacity-50": isDisabled,
-        "cursor-pointer hover:scale-[1.01] active:scale-[0.98] hover:shadow-md": !isDisabled
+        "cursor-pointer hover:scale-[1.01] active:scale-[0.98] hover:shadow-md hover:border-primary": !isDisabled
       })}
     >
       <div className="flex items-center gap-3">
@@ -125,8 +125,8 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
 export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   onAnswer,
-  questionNumber,
-  totalQuestions,
+  questionNumber: _,
+  totalQuestions: __,
   isLoading = false,
   className
 }) => {
@@ -277,23 +277,9 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   }
   
   return (
-    <div className={cn("w-full max-w-md mx-auto bg-card border border-border rounded-2xl shadow-sm p-6", className)}>
-      {/* 진행률 바 */}
-      <div className="mb-6">
-        <div className="flex justify-between text-sm text-muted-foreground mb-2">
-          <span>문제 {questionNumber}</span>
-          <span>{totalQuestions}개 중</span>
-        </div>
-        <div className="w-full bg-muted rounded-full h-2">
-          <div 
-            className="bg-soft-blue h-2 rounded-full transition-all duration-300"
-            style={{ width: `${(questionNumber / totalQuestions) * 100}%` }}
-          />
-        </div>
-      </div>
-      
+    <div className={cn("w-full bg-card border border-border rounded-2xl shadow-sm p-6", className)}>
       {/* 문제 내용 */}
-      <div className="mb-8">
+      <div className="mb-6">
         {renderQuestionContent()}
       </div>
       

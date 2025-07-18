@@ -6,26 +6,43 @@ import {
   RotateCcw,
   ChevronDown,
   ChevronUp,
-  Eye,
   Target,
   Award,
 } from 'lucide-react'
-import type { QuizResult } from '../types/quiz'
+import type { QuizResult, EmotionQuestion } from '../types/quiz'
 
 interface RewardScreenProps {
   result: QuizResult
   nickname: string
+  questions: EmotionQuestion[]
   onRestart: () => void
 }
 
 const RewardScreen: React.FC<RewardScreenProps> = ({
   result,
   nickname,
+  questions,
   onRestart,
 }) => {
-  const { t } = useTranslation()
-  const [showIncorrectAnswers, setShowIncorrectAnswers] = useState(false)
+  const { t, i18n } = useTranslation()
   const [showAllAnswers, setShowAllAnswers] = useState(false)
+
+  // questionId로 원본 question을 찾는 함수
+  const findQuestionById = (questionId: string): EmotionQuestion | undefined => {
+    return questions.find(q => q.id === questionId)
+  }
+
+  // answerId로 choice 텍스트를 찾는 함수
+  const findChoiceTextById = (question: EmotionQuestion, choiceId: string): string => {
+    const choice = question.choices.find(c => c.id === choiceId)
+    return choice?.text || choiceId
+  }
+
+  // 현재 언어에 맞는 해설을 가져오는 함수
+  const getExplanationByLanguage = (explanation: { ko: string; en: string; es: string }): string => {
+    const currentLanguage = i18n.language as keyof typeof explanation
+    return explanation[currentLanguage] || explanation.ko || explanation.en
+  }
 
   const gradeLabels: { [key: string]: string } = {
     master: t('grades.master'),
@@ -35,10 +52,10 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
   }
 
   const gradeColors = {
-    master: 'text-purple-600',
-    expert: 'text-blue-600',
-    rookie: 'text-green-600',
-    novice: 'text-orange-600',
+    master: 'text-lavender',
+    expert: 'text-soft-blue', 
+    rookie: 'text-mint',
+    novice: 'text-warning',
   }
 
   const percentage = Math.round((result.score / result.totalQuestions) * 100)
@@ -51,8 +68,8 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
   })
 
   return (
-    <div className="min-h-screen bg-background-light p-4">
-      <div className="max-w-lg mx-auto">
+    <div className="min-h-screen bg-background p-4">
+      <div className="max-w-sm mx-auto">
         {/* 메인 결과 카드 */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-8 mb-6">
           {/* 등급 표시 */}
@@ -75,8 +92,16 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
               {t('result.title', { nickname })}
             </h1>
 
+            {/* 등급별 코멘트 */}
+            <div className="text-sm text-muted-foreground mb-4">
+              {result.grade === 'master' && '완벽한 감정 읽기 능력을 보유하고 있습니다!'}
+              {result.grade === 'expert' && '뛰어난 감정 인식 능력을 가지고 있네요!'}
+              {result.grade === 'rookie' && '평균 이상의 감정 이해력을 보여줍니다.'}
+              {result.grade === 'novice' && '감정 읽기 연습을 통해 더 발전할 수 있어요.'}
+            </div>
+
             {result.score === result.totalQuestions && (
-              <div className="text-lg text-yellow-600 font-medium mb-4">
+              <div className="text-lg text-primary font-medium mb-4">
                 {t('result.perfectScore')}
               </div>
             )}
@@ -85,7 +110,6 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
           {/* 점수 표시 */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Target size={24} className="text-primary" />
               <span className="text-5xl font-bold text-foreground">
                 {result.score}
               </span>
@@ -100,19 +124,19 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
             {/* 정답/오답 통계 */}
             <div className="grid grid-cols-2 gap-4 max-w-xs mx-auto">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="text-sm text-green-600 font-medium">
+              <div className="bg-mint/10 border border-mint/30 rounded-lg p-4">
+                <div className="text-sm text-mint font-medium">
                   {t('common.correct')}
                 </div>
-                <div className="text-2xl font-bold text-green-700">
+                <div className="text-2xl font-bold text-mint">
                   {result.correctAnswers}
                 </div>
               </div>
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <div className="text-sm text-red-600 font-medium">
+              <div className="bg-coral/10 border border-coral/30 rounded-lg p-4">
+                <div className="text-sm text-coral font-medium">
                   {t('common.incorrect')}
                 </div>
-                <div className="text-2xl font-bold text-red-700">
+                <div className="text-2xl font-bold text-coral">
                   {result.incorrectAnswers.length}
                 </div>
               </div>
@@ -128,9 +152,9 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
             <Button
               onClick={onRestart}
-              variant="outline"
+              variant="default"
               size="lg"
-              className="w-full !mt-6"
+              className="w-full !mt-6 bg-primary text-foreground font-semibold"
             >
               <RotateCcw size={18} className="mr-2" />
               {t('common.retry')}
@@ -140,75 +164,6 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
         {/* 답변 보기 섹션 */}
         <div className="space-y-4">
-          {/* 틀린 답 보기 버튼 */}
-          {result.incorrectAnswers.length > 0 && (
-            <div className="bg-card border border-border rounded-2xl shadow-sm p-6">
-              <Button
-                onClick={() => setShowIncorrectAnswers(!showIncorrectAnswers)}
-                variant="ghost"
-                className="w-full flex items-center justify-between p-4 h-auto text-left"
-              >
-                <div className="flex items-center gap-2">
-                  <Eye size={18} className="text-red-600" />
-                  <span className="font-medium text-foreground">
-                    틀린 답 보기 ({result.incorrectAnswers.length}개)
-                  </span>
-                </div>
-                {showIncorrectAnswers ? (
-                  <ChevronUp size={18} className="text-gray-500" />
-                ) : (
-                  <ChevronDown size={18} className="text-gray-500" />
-                )}
-              </Button>
-
-              {showIncorrectAnswers && (
-                <div className="mt-4 space-y-4 border-t border-border pt-4">
-                  {result.incorrectAnswers.map((wrongAnswer, index) => (
-                    <div
-                      key={wrongAnswer.questionId}
-                      className="p-4 bg-red-50 border border-red-200 rounded-lg"
-                    >
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="inline-flex items-center justify-center w-6 h-6 bg-red-100 text-red-600 text-sm font-bold rounded-full">
-                          {index + 1}
-                        </span>
-                        <span className="text-sm text-foreground">
-                          문제 {wrongAnswer.questionId}
-                        </span>
-                      </div>
-
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-start gap-2">
-                          <span className="text-red-500 mt-0.5">❌</span>
-                          <div>
-                            <span className="text-foreground">
-                              당신의 답:{' '}
-                            </span>
-                            <span className="font-medium text-red-600">
-                              {wrongAnswer.selectedAnswerId}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-2">
-                          <span className="text-green-500 mt-0.5">✅</span>
-                          <div>
-                            <span className="text-foreground">
-                              정답:{' '}
-                            </span>
-                            <span className="font-medium text-green-600">
-                              {wrongAnswer.correctAnswerId}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
           {/* 전체 답 보기 버튼 */}
           <div className="bg-card border border-border rounded-2xl shadow-sm p-6">
             <Button
@@ -217,7 +172,7 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
               className="w-full flex items-center justify-between p-4 h-auto text-left"
             >
               <div className="flex items-center gap-2">
-                <Target size={18} className="text-blue-600" />
+                <Target size={18} className="text-soft-blue" />
                 <span className="font-medium text-foreground">
                   전체 답 보기 ({result.answers.length}개)
                 </span>
@@ -231,68 +186,97 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
             {showAllAnswers && (
               <div className="mt-4 space-y-4 border-t border-border pt-4">
-                {result.answers.map((answer, index) => (
-                  <div
-                    key={answer.questionId}
-                    className={`p-4 rounded-lg border ${
-                      answer.isCorrect 
-                        ? 'bg-green-50 border-green-200' 
-                        : 'bg-red-50 border-red-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className={`inline-flex items-center justify-center w-6 h-6 text-sm font-bold rounded-full ${
-                        answer.isCorrect 
-                          ? 'bg-green-100 text-green-600' 
-                          : 'bg-red-100 text-red-600'
-                      }`}>
-                        {index + 1}
-                      </span>
-                      <span className="text-sm text-foreground">
-                        문제 {answer.questionId}
-                      </span>
-                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                        answer.isCorrect 
-                          ? 'bg-green-100 text-green-700' 
-                          : 'bg-red-100 text-red-700'
-                      }`}>
-                        {answer.isCorrect ? '정답' : '오답'}
-                      </span>
-                    </div>
+                {result.answers.map((answer, index) => {
+                  const question = findQuestionById(answer.questionId)
+                  if (!question) return null
 
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-start gap-2">
-                        <span className={`mt-0.5 ${answer.isCorrect ? 'text-green-500' : 'text-red-500'}`}>
-                          {answer.isCorrect ? '✅' : '❌'}
+                  const selectedChoiceText = findChoiceTextById(question, answer.selectedAnswerId)
+                  const correctChoiceText = findChoiceTextById(question, answer.correctAnswerId)
+                  
+                  return (
+                    <div
+                      key={answer.questionId}
+                      className={`p-4 rounded-lg border ${
+                        answer.isCorrect 
+                          ? 'bg-mint/10 border-mint/30' 
+                          : 'bg-coral/10 border-coral/30'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className={`inline-flex items-center justify-center w-6 h-6 text-sm font-bold rounded-full ${
+                          answer.isCorrect 
+                            ? 'bg-mint/20 text-mint' 
+                            : 'bg-coral/20 text-coral'
+                        }`}>
+                          {index + 1}
                         </span>
-                        <div>
-                          <span className="text-foreground">
-                            당신의 답:{' '}
-                          </span>
-                          <span className={`font-medium ${
-                            answer.isCorrect ? 'text-green-600' : 'text-red-600'
-                          }`}>
-                            {answer.selectedAnswerId}
-                          </span>
-                        </div>
+                        <span className="text-sm text-foreground">
+                          문제 #{index + 1}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                          answer.isCorrect 
+                            ? 'bg-mint/20 text-mint' 
+                            : 'bg-coral/20 text-coral'
+                        }`}>
+                          {answer.isCorrect ? '정답' : '오답'}
+                        </span>
                       </div>
 
-                      {!answer.isCorrect && (
+                      {/* 문제 이미지 (face2text, eyes2text만) */}
+                      {question.image && (question.type === 'face2text' || question.type === 'eyes2text') && (
+                        <div className="mb-3">
+                          <img 
+                            src={question.image} 
+                            alt={`문제 ${index + 1} 이미지`}
+                            className="w-20 h-20 object-cover rounded-lg border border-border"
+                          />
+                        </div>
+                      )}
+
+                      <div className="space-y-2 text-sm">
                         <div className="flex items-start gap-2">
-                          <span className="text-green-500 mt-0.5">✅</span>
+                          <span className={`mt-0.5 ${answer.isCorrect ? 'text-mint' : 'text-coral'}`}>
+                            {answer.isCorrect ? '✅' : '❌'}
+                          </span>
                           <div>
                             <span className="text-foreground">
-                              정답:{' '}
+                              당신의 답:{' '}
                             </span>
-                            <span className="font-medium text-green-600">
-                              {answer.correctAnswerId}
+                            <span className={`font-medium ${
+                              answer.isCorrect ? 'text-mint' : 'text-coral'
+                            }`}>
+                              {selectedChoiceText}
                             </span>
                           </div>
                         </div>
-                      )}
+
+                        {!answer.isCorrect && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-mint mt-0.5">✅</span>
+                            <div>
+                              <span className="text-foreground">
+                                정답:{' '}
+                              </span>
+                              <span className="font-medium text-mint">
+                                {correctChoiceText}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 해설 표시 */}
+                        {question.explanation && (
+                          <div className="mt-3 p-3 bg-background/50 rounded-lg border border-border">
+                            <div className="text-xs text-muted-foreground mb-1">💡 해설</div>
+                            <div className="text-sm text-foreground">
+                              {getExplanationByLanguage(question.explanation)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
@@ -302,4 +286,4 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
   )
 }
 
-export default RewardScreen 
+export default RewardScreen

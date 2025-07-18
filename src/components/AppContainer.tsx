@@ -11,27 +11,15 @@ import type { AppStep } from '../types/quiz'
 
 // 페이지 전환 애니메이션 설정
 const pageVariants = {
-  initial: {
-    opacity: 0,
-    x: 50,
-    scale: 0.96
-  },
-  in: {
-    opacity: 1,
-    x: 0,
-    scale: 1
-  },
-  out: {
-    opacity: 0,
-    x: -50,
-    scale: 0.96
-  }
+  initial: { opacity: 0, y: 20 },
+  in: { opacity: 1, y: 0 },
+  out: { opacity: 0, y: -20 }
 }
 
 const pageTransition = {
-  type: 'tween' as const,
-  ease: 'anticipate' as const,
-  duration: 0.4
+  type: "tween",
+  ease: "anticipate",  
+  duration: 0.3
 }
 
 // Step별 컴포넌트 렌더링

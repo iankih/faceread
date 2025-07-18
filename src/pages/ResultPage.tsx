@@ -13,14 +13,17 @@ const ResultPage: React.FC = () => {
 
   const handleRestart = () => {
     quiz.resetQuiz()
+    // 문제를 다시 로드하여 새로운 선택과 셔플링을 보장
+    quiz.loadQuestions(quiz.language)
     quiz.setStep('intro')
   }
 
   return (
-    <div className="min-h-screen bg-background-light">
+    <div className="min-h-screen bg-background">
       <RewardScreen
         result={quiz.quizResult}
         nickname={quiz.nickname}
+        questions={quiz.questions}
         onRestart={handleRestart}
       />
     </div>

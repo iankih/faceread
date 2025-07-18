@@ -46,45 +46,32 @@ const HomePage: React.FC = () => {
   return (
     <>
       {/* 메인 컨텐츠 */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8">
-          {/* Left Hero Visual */}
-          <div className="flex-1 max-w-md w-full bg-card border border-border rounded-2xl shadow-sm p-8 flex flex-col items-center justify-center min-h-[300px]">
-            <div className="text-6xl mb-4" role="img" aria-label="Emotion detection visualization">
-              🎭✨
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col items-center gap-6">
+          {/* 히어로 카드 - 컴팩트하게 */}
+          <div className="w-full max-w-sm bg-card rounded-2xl p-6 shadow-lg border border-border">
+            {/* 아이콘 + 제목 */}
+            <div className="text-center mb-6">
+              <div className="text-4xl mb-3">🎭</div>
+              <h1 className="text-xl font-bold text-foreground">감정 인식 테스트</h1>
+              <p className="text-sm text-muted-foreground mt-2">당신의 감정 읽기 능력은?</p>
             </div>
-            <h3 className="text-xl font-bold text-foreground mb-2 text-center">
-              {t('quiz.title')}
-            </h3>
-            <p className="text-foreground text-center opacity-80">
-              {t('quiz.description')}
-            </p>
-          </div>
 
-          {/* Right Section - 퀴즈 영역 */}
-          <div className="flex-1 max-w-md w-full bg-card border border-border rounded-2xl shadow-sm p-8">
-            <h2 className="text-left text-xl font-bold text-foreground mb-4">
-              🎯 {t('quiz.title')}
-            </h2>
-            <p className="text-left text-foreground mb-6">
-              {t('quiz.description')}
-            </p>
-
-            {/* 닉네임 입력 */}
-            <div className="mb-6">
+            {/* 닉네임 입력 - 더 큰 터치 영역 */}
+            <div className="mb-4">
               <div className="relative flex items-center">
-                <User className="absolute left-3 text-foreground" size={20} />
+                <User className="absolute left-3 text-muted-foreground" size={20} />
                 <input
                   type="text"
                   id="nickname"
                   value={nickname}
                   onChange={(e) => setNicknameInput(e.target.value)}
                   placeholder={t('nickname.placeholder')}
-                  className="w-full pl-10 pr-4 py-3 bg-input rounded-lg outline-none border border-transparent focus:ring-2 focus:ring-primary hover:border-primary text-foreground placeholder-placeholder-light transition-all duration-200"
+                  className="w-full h-12 pl-10 pr-4 bg-input border-2 border-border rounded-xl outline-none transition-all duration-200 text-foreground placeholder-muted-foreground focus:border-primary focus:ring-3 focus:ring-primary/20"
                   maxLength={10}
                 />
               </div>
-              <p className="text-xs text-foreground mt-2">
+              <p className="text-xs text-muted-foreground mt-2">
                 {t('nickname.hint')}
               </p>
             </div>
@@ -96,16 +83,15 @@ const HomePage: React.FC = () => {
               </div>
             )}
 
-            {/* 시작 버튼 */}
+            {/* 시작 버튼 - 골든 옐로우 */}
             <Button
               onClick={handleStartQuiz}
               disabled={isLoading}
               size="lg"
               variant="default"
-              className="w-full"
+              className="w-full h-12 bg-primary text-foreground font-semibold rounded-xl hover:bg-primary-dark hover:scale-[1.02] transition-all duration-200"
             >
-              <Play size={18} className="mr-2" />
-              {isLoading ? t('quiz.loading') : t('quiz.start')}
+              {isLoading ? t('quiz.loading') : '> 테스트 시작 <'}
             </Button>
 
             {/* 공유 버튼 영역 */}
@@ -113,11 +99,11 @@ const HomePage: React.FC = () => {
               <ShareButtons shareText={homeShareText} shareUrl={homeShareUrl} />
             </div>
           </div>
-        </div>
-
-        {/* FAQ 섹션 */}
-        <div className="mt-12">
-          <FAQ />
+          
+          {/* FAQ는 접기 가능하게 */}
+          <div className="w-full max-w-sm">
+            <FAQ />
+          </div>
         </div>
       </div>
     </>
