@@ -332,14 +332,15 @@ export const useQuiz = () => {
     dispatch({ type: 'RESET_QUIZ' })
   }, [])
   
-  // 닉네임 초기화 (처음으로 버튼용)
+  // 퀴즈 완전 재시작 (다시하기 버튼용)
   const resetToHome = useCallback(() => {
-    console.log('Resetting to home...')
+    console.log('🔄 Quiz restart initiated...')
     // 완전 초기화 - questions도 제거
     dispatch({ type: 'RESET_QUIZ' })
     dispatch({ type: 'LOAD_QUESTIONS_SUCCESS', payload: [] }) // questions 초기화
     dispatch({ type: 'SET_NICKNAME', payload: '' })
     dispatch({ type: 'SET_STEP', payload: 'intro' })
+    console.log('✅ Quiz restart completed')
   }, [])
   
   // 현재 문제
@@ -385,6 +386,7 @@ export const useQuiz = () => {
     nextStep,
     prevStep,
     resetToHome,
+    restartQuiz: resetToHome, // 더 명확한 별칭
     
     // 유틸리티
     calculateGrade,

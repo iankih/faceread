@@ -125,11 +125,14 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
 export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   onAnswer,
-  questionNumber: _,
-  totalQuestions: __,
+  questionNumber,
+  totalQuestions,
   isLoading = false,
   className
 }) => {
+  // TODO: questionNumber와 totalQuestions를 사용한 진행률 표시 구현 예정
+  void questionNumber;
+  void totalQuestions;
   const [selectedAnswerId, setSelectedAnswerId] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [processingError, setProcessingError] = useState<string | null>(null)

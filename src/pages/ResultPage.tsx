@@ -5,17 +5,17 @@ import RewardScreen from '../components/RewardScreen'
 const ResultPage: React.FC = () => {
   const quiz = useQuizContext()
   
-  // 퀴즈가 완료되지 않았으면 초기 화면으로 이동
-  if (!quiz.isQuizFinished || !quiz.quizResult) {
-    quiz.setStep('intro')
-    return null
+  const handleRestart = () => {
+    quiz.restartQuiz()
   }
 
-  const handleRestart = () => {
-    quiz.resetQuiz()
-    // 문제를 다시 로드하여 새로운 선택과 셔플링을 보장
-    quiz.loadQuestions(quiz.language)
-    quiz.setStep('intro')
+  // 퀴즈 결과가 없으면 로딩 상태 표시
+  if (!quiz.quizResult) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div>결과를 불러오는 중...</div>
+      </div>
+    )
   }
 
   return (

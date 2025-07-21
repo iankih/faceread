@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuizContext } from '../contexts/QuizContext'
 import { Button } from '@/components/ui/button'
 import ShareButtons from '../components/ShareButtons'
-import { Play, User } from 'lucide-react'
+import { User } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import FAQ from '../components/FAQ' // FAQ 컴포넌트 임포트
 
