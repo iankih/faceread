@@ -9,12 +9,12 @@ export function cn(...inputs: ClassValue[]) {
 // 기존 유틸리티 함수들 복구
 
 /**
- * 등급 계산 함수 (PRD 3.2 기준)
+ * 등급 계산 함수 (15문제 기준)
  */
 export const calculateGrade = (score: number): string => {
-  if (score >= 9) return 'master'
-  if (score >= 6) return 'expert'
-  if (score >= 3) return 'rookie'
+  if (score >= 12) return 'master'
+  if (score >= 8) return 'expert'
+  if (score >= 4) return 'rookie'
   return 'novice'
 }
 
@@ -60,11 +60,11 @@ export const generateShareText = (grade: string, score: number, nickname: string
   }
 
   const shareTexts = {
-    ko: `${nickname}님의 감정 인식 능력은 ${gradeTexts.ko[grade as keyof typeof gradeTexts.ko]}! (${score}/10점)
+    ko: `${nickname}님의 감정 인식 능력은 ${gradeTexts.ko[grade as keyof typeof gradeTexts.ko]}! (${score}/15점)
 도전해보세요! https://faceread.app`,
-    en: `${nickname}'s emotion recognition ability is ${gradeTexts.en[grade as keyof typeof gradeTexts.en]}! (${score}/10 points)
+    en: `${nickname}'s emotion recognition ability is ${gradeTexts.en[grade as keyof typeof gradeTexts.en]}! (${score}/15 points)
 Try it! https://faceread.app`,
-    es: `La habilidad de reconocimiento de emociones de ${nickname} es ${gradeTexts.es[grade as keyof typeof gradeTexts.es]}! (${score}/10 puntos)
+    es: `La habilidad de reconocimiento de emociones de ${nickname} es ${gradeTexts.es[grade as keyof typeof gradeTexts.es]}! (${score}/15 puntos)
 ¡Inténtalo! https://faceread.app`
   }
 

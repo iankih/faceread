@@ -179,7 +179,7 @@ export const useShare = (options: ShareOptions = {}) => {
     } finally {
       setIsSharing(false)
     }
-  }, [userAgent])
+  }, [userAgent, shareWithData])
   
   /**
    * 일반 데이터 공유

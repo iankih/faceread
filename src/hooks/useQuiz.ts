@@ -36,11 +36,11 @@ const calculateScore = (answers: UserAnswer[]): number => {
   }, 0)
 }
 
-// 등급 계산 함수 (PRD 3.2 기준)
+// 등급 계산 함수 (15문제 기준)
 const calculateGrade = (score: number): string => {
-  if (score >= 9) return 'master'
-  if (score >= 6) return 'expert'
-  if (score >= 3) return 'rookie'
+  if (score >= 12) return 'master'
+  if (score >= 8) return 'expert' 
+  if (score >= 4) return 'rookie'
   return 'novice'
 }
 
@@ -54,24 +54,16 @@ const shuffleArray = <T>(array: T[]): T[] => {
   return shuffled
 }
 
-// 표준 모드 문제 선정 (face→text 4, text→face 3, eyes→text 3)
+// 표준 모드 문제 선정 (face2text 15개)
 const selectStandardModeQuestions = (questions: EmotionQuestion[]): EmotionQuestion[] => {
   const faceToText = questions.filter(q => q.type === 'face2text')
-  const textToFace = questions.filter(q => q.type === 'text2face')
-  const eyesToText = questions.filter(q => q.type === 'eyes2text')
-  
-  const selectedQuestions = [
-    ...shuffleArray(faceToText).slice(0, 4),
-    ...shuffleArray(textToFace).slice(0, 3),
-    ...shuffleArray(eyesToText).slice(0, 3)
-  ]
-  
-  return shuffleArray(selectedQuestions)
+  return shuffleArray(faceToText).slice(0, 15)
 }
 
-// 통합 모드 문제 선정 (현재는 표준 모드와 동일, 추후 슬라이더 구현 시 확장)
+// 통합 모드 문제 선정 (face2text 15개, 표준 모드와 동일)
 const selectIntegratedModeQuestions = (questions: EmotionQuestion[]): EmotionQuestion[] => {
-  return shuffleArray(questions).slice(0, 10)
+  const faceToText = questions.filter(q => q.type === 'face2text')
+  return shuffleArray(faceToText).slice(0, 15)
 }
 
 // 퀴즈 리듀서

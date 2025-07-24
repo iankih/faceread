@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { EmotionQuestion, AnswerChoice } from '../types/quiz'
-import { cn } from '../lib/utils'
+import { cn, shuffleArray } from '../lib/utils'
+import { useTranslation } from 'react-i18next'
 
 interface QuestionCardProps {
   question: EmotionQuestion
@@ -18,7 +19,6 @@ interface ChoiceButtonProps {
   isIncorrect?: boolean
   showResult?: boolean
   onClick: () => void
-  questionType: 'face2text' | 'text2face' | 'eyes2text'
   isProcessing?: boolean
 }
 
@@ -29,19 +29,18 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
   isIncorrect,
   showResult,
   onClick,
-  questionType,
   isProcessing = false
 }) => {
   const baseClasses = "w-full min-h-[44px] p-4 rounded-xl border-2 transition-all duration-200 font-medium text-left"
   
-  // 결과 표시 시 색상
+  // 결과 표시 시 색상 (다크모드 최적화)
   const resultClasses = showResult ? (
-    isCorrect ? "border-mint bg-mint/10 text-mint" :
-    isIncorrect ? "border-coral bg-coral/10 text-coral" :
-    "border-border bg-card text-muted-foreground"
+    isCorrect ? "border-mint bg-mint/10 text-mint dark:border-mint dark:bg-mint/20 dark:text-mint" :
+    isIncorrect ? "border-coral bg-coral/10 text-coral dark:border-coral dark:bg-coral/20 dark:text-coral" :
+    "border-border bg-card text-muted-foreground dark:border-border dark:bg-card dark:text-muted-foreground"
   ) : (
-    isSelected ? "border-primary bg-primary/10 text-primary" :
-    "border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5"
+    isSelected ? "border-primary bg-primary/10 text-primary dark:border-primary dark:bg-primary/20 dark:text-primary" :
+    "border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5 dark:border-border dark:bg-card dark:text-foreground dark:hover:border-primary/70 dark:hover:bg-primary/10"
   )
   
   const isDisabled = showResult || isProcessing
@@ -56,39 +55,11 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
       })}
     >
       <div className="flex items-center gap-3">
-        {/* text2face 타입에서는 이미지 표시 */}
-        {questionType === 'text2face' && choice.image && (
-          <div className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
-            <img
-              src={choice.image}
-              alt={`선택지 ${choice.text}`}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-        )}
-        
         {/* 선택지 텍스트 */}
         <div className="flex-1">
-          <span className="text-sm font-medium text-muted-foreground mr-2">
+          <span className="text-sm sm:text-base md:text-lg font-medium leading-relaxed">
             {choice.text}
           </span>
-          
-          {/* face2text, eyes2text 타입에서는 감정 설명 */}
-          {(questionType === 'face2text' || questionType === 'eyes2text') && (
-            <span className="text-base">
-              {choice.id === 'happy' && '기쁨'}
-              {choice.id === 'sad' && '슬픔'}
-              {choice.id === 'angry' && '화남'}
-              {choice.id === 'surprised' && '놀람'}
-              {choice.id === 'fear' && '두려움'}
-              {choice.id === 'disgust' && '혐오'}
-              {choice.id === 'neutral' && '무표정'}
-              {choice.id === 'confused' && '혼란'}
-              {choice.id === 'focused' && '집중'}
-              {choice.id === 'determined' && '결연함'}
-            </span>
-          )}
         </div>
         
         {/* 결과 표시 아이콘 */}
@@ -133,11 +104,17 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   // TODO: questionNumber와 totalQuestions를 사용한 진행률 표시 구현 예정
   void questionNumber;
   void totalQuestions;
+  const { t } = useTranslation()
   const [selectedAnswerId, setSelectedAnswerId] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [processingError, setProcessingError] = useState<string | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const processingStartTime = useRef<number | null>(null)
+  
+  // 선택지를 랜덤으로 섞기 (문제가 바뀔 때마다)
+  const shuffledChoices = useMemo(() => {
+    return shuffleArray([...question.choices])
+  }, [question.choices])
   
   // 타임아웃 정리
   useEffect(() => {
@@ -184,7 +161,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     // 5초 타임아웃 설정
     timeoutRef.current = setTimeout(() => {
       console.error('⏰ Answer processing timeout - forcing reset')
-      setProcessingError('답변 처리 중 오류가 발생했습니다. 다시 시도해주세요.')
+      setProcessingError(t('question.error.timeout'))
       setSelectedAnswerId(null)
       setIsProcessing(false)
     }, 5000)
@@ -204,7 +181,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       
     } catch (error) {
       console.error('❌ Error calling onAnswer:', error)
-      setProcessingError('답변 처리 중 오류가 발생했습니다.')
+      setProcessingError(t('question.error.general'))
       setSelectedAnswerId(null)
       setIsProcessing(false)
       if (timeoutRef.current) {
@@ -214,69 +191,29 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     }
     
     console.log('=== CHOICE CLICK DEBUG END ===')
-  }, [selectedAnswerId, isLoading, isProcessing, onAnswer, question.id, question.type])
+  }, [selectedAnswerId, isLoading, isProcessing, onAnswer, question.id, question.type, t])
   
   const renderQuestionContent = () => {
-    switch (question.type) {
-      case 'face2text':
-        return (
-          <div className="text-center">
-            {question.image && (
-              <div className="mx-auto mb-6 w-32 h-32 rounded-xl overflow-hidden bg-gray-100 shadow-lg">
-                <img
-                  src={question.image}
-                  alt="얼굴 표정"
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-            )}
-            <h2 className="text-xl font-semibold text-foreground mb-2">
-              이 표정은 어떤 감정일까요?
-            </h2>
-            <p className="text-foreground">
-              사진 속 인물의 감정을 선택해주세요.
-            </p>
+    return (
+      <div className="text-center">
+        {question.image && (
+          <div className="mx-auto mb-6 w-64 h-64 rounded-xl overflow-hidden bg-muted/10 dark:bg-muted/20 shadow-lg">
+            <img
+              src={question.image}
+              alt="표정 이미지"
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
           </div>
-        )
-        
-      case 'text2face':
-        return (
-          <div className="text-center">
-            <h2 className="text-xl font-semibold text-foreground mb-2">
-              <span className="text-primary font-bold">{question.emotionKey}</span> 감정을 나타내는 표정은?
-            </h2>
-            <p className="text-foreground">
-              해당 감정에 맞는 얼굴 표정을 선택해주세요.
-            </p>
-          </div>
-        )
-        
-      case 'eyes2text':
-        return (
-          <div className="text-center">
-            {question.image && (
-              <div className="mx-auto mb-6 w-40 h-24 rounded-lg overflow-hidden bg-gray-100 shadow-lg">
-                <img
-                  src={question.image}
-                  alt="눈 표정"
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-            )}
-            <h2 className="text-xl font-semibold text-foreground mb-2">
-              이 눈빛이 나타내는 감정은?
-            </h2>
-            <p className="text-foreground">
-              눈을 통해 드러나는 감정을 선택해주세요.
-            </p>
-          </div>
-        )
-        
-      default:
-        return null
-    }
+        )}
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground mb-2 leading-tight">
+          {t('question.title')}
+        </h2>
+        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+          {t('question.description')}
+        </p>
+      </div>
+    )
   }
   
   return (
@@ -288,7 +225,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       
       {/* 선택지 */}
       <div className="space-y-3">
-        {question.choices.map((choice) => {
+        {shuffledChoices.map((choice) => {
           const isSelected = selectedAnswerId === choice.id
           
           return (
@@ -300,7 +237,6 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
               isIncorrect={false}
               showResult={false}
               onClick={() => handleChoiceClick(choice.id)}
-              questionType={question.type}
               isProcessing={isProcessing}
             />
           )
@@ -311,15 +247,15 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       {isProcessing && (
         <div className="mt-6 flex justify-center items-center gap-2">
           <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
-          <span className="text-sm text-muted-foreground">답변 처리 중...</span>
+          <span className="text-sm text-muted-foreground">{t('question.processing')}</span>
         </div>
       )}
       
       {processingError && (
-        <div className="mt-6 p-3 bg-red-50 border border-red-200 rounded-lg">
+        <div className="mt-6 p-3 bg-red-50 border border-red-200 rounded-lg dark:bg-red-950/20 dark:border-red-800/30">
           <div className="flex items-center gap-2">
-            <span className="text-red-600 text-sm">⚠️</span>
-            <span className="text-red-700 text-sm">{processingError}</span>
+            <span className="text-red-600 text-sm dark:text-red-400">⚠️</span>
+            <span className="text-red-700 text-sm dark:text-red-300">{processingError}</span>
           </div>
           <button
             onClick={() => {
@@ -327,9 +263,9 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
               setSelectedAnswerId(null)
               setIsProcessing(false)
             }}
-            className="mt-2 text-xs text-red-600 hover:text-red-800 underline"
+            className="mt-2 text-xs text-red-600 hover:text-red-800 underline dark:text-red-400 dark:hover:text-red-300"
           >
-            다시 시도
+{t('question.retry')}
           </button>
         </div>
       )}

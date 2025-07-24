@@ -1,311 +1,257 @@
 [
   {
-    "id": "face2text_001",
+    "id": "face_quiz_001",
     "type": "face2text",
-    "image": "/images/faces/happy_001.webp",
-    "emotionKey": "happiness",
+    "image": "/images/1.png",
+    "emotionKey": "sleepiness",
     "choices": [
-      {
-        "id": "happy",
-        "text": "기쁨"
-      },
-      {
-        "id": "sad",
-        "text": "슬픔"
-      },
-      {
-        "id": "angry",
-        "text": "화남"
-      },
-      {
-        "id": "surprised",
-        "text": "놀람"
-      }
+      { "id": "sleepiness", "text": "졸림" },
+      { "id": "tiredness", "text": "피곤" },
+      { "id": "boredom", "text": "지루함" },
+      { "id": "relaxation", "text": "편안" }
     ],
-    "correctAnswer": "happy",
+    "correctAnswer": "sleepiness",
     "explanation": {
-      "ko": "입꼬리가 올라가고 눈가에 주름이 생긴 표정은 진정한 기쁨을 나타냅니다.",
-      "en": "The upturned corners of the mouth and wrinkles around the eyes indicate genuine happiness.",
-      "es": "Las comisuras de la boca hacia arriba y las arrugas alrededor de los ojos indican felicidad genuina."
+      "ko": "눈꺼풀이 무겁게 내려앉고, 입술과 턱에 힘이 풀려 자연스럽게 벌어진 모습은 지금이라도 잠들 것 같은 전형적인 졸음 상태를 보여줍니다.",
+      "en": "The heavy, drooping eyelids, along with the relaxed, naturally parted lips and jaw, show a typical state of sleepiness, as if about to fall asleep."
     }
   },
   {
-    "id": "text2face_001", 
-    "type": "text2face",
-    "emotionKey": "슬픔",
-    "choices": [
-      {
-        "id": "sad_face",
-        "text": "A",
-        "image": "/images/faces/sad_001.webp"
-      },
-      {
-        "id": "happy_face",
-        "text": "B", 
-        "image": "/images/faces/happy_002.webp"
-      },
-      {
-        "id": "angry_face",
-        "text": "C",
-        "image": "/images/faces/angry_001.webp"
-      },
-      {
-        "id": "fear_face",
-        "text": "D",
-        "image": "/images/faces/fear_001.webp"
-      }
-    ],
-    "correctAnswer": "sad_face",
-    "explanation": {
-      "ko": "입꼬리가 아래로 내려가고 눈썹이 처진 표정이 슬픔의 전형적인 특징입니다.",
-      "en": "Downturned mouth corners and drooping eyebrows are typical features of sadness.",
-      "es": "Las comisuras de la boca hacia abajo y las cejas caídas son características típicas de la tristeza."
-    }
-  },
-  {
-    "id": "eyes2text_001",
-    "type": "eyes2text", 
-    "image": "/images/eyes/angry_001.webp",
-    "emotionKey": "anger",
-    "choices": [
-      {
-        "id": "angry",
-        "text": "화남"
-      },
-      {
-        "id": "focused",
-        "text": "집중"
-      },
-      {
-        "id": "confused",
-        "text": "혼란"
-      },
-      {
-        "id": "determined",
-        "text": "의지"
-      }
-    ],
-    "correctAnswer": "angry",
-    "explanation": {
-      "ko": "눈썹이 내려앉고 눈이 좁혀진 모습은 화가 난 감정을 나타냅니다.",
-      "en": "Furrowed brows and narrowed eyes indicate anger.",
-      "es": "Las cejas fruncidas y los ojos entrecerrados indican ira."
-    }
-  },
-  {
-    "id": "face2text_002",
+    "id": "face_quiz_002",
     "type": "face2text",
-    "image": "/images/faces/surprised_001.webp", 
+    "image": "/images/2.png",
+    "emotionKey": "anticipation",
+    "choices": [
+      { "id": "anticipation", "text": "기대" },
+      { "id": "curiosity", "text": "호기심" },
+      { "id": "hope", "text": "희망" },
+      { "id": "excitement", "text": "흥분" }
+    ],
+    "correctAnswer": "anticipation",
+    "explanation": {
+      "ko": "눈썹이 부드럽게 올라가고 눈을 크게 뜨며, 입꼬리가 살짝 올라간 미소는 무언가 흥미로운 일을 기다리며 설레는 순간을 포착한 것입니다.",
+      "en": "The gently raised eyebrows, wide eyes, and a slight smile capture a moment of excitement while waiting for something interesting."
+    }
+  },
+  {
+    "id": "face_quiz_003",
+    "type": "face2text",
+    "image": "/images/3.png",
+    "emotionKey": "joy",
+    "choices": [
+      { "id": "joy", "text": "기쁨" },
+      { "id": "happiness", "text": "행복" },
+      { "id": "satisfaction", "text": "만족" },
+      { "id": "contentment", "text": "흥겨움" }
+    ],
+    "correctAnswer": "joy",
+    "explanation": {
+      "ko": "입꼬리가 올라가고 볼이 솟아오르며 눈가에 주름이 생기는 '눈웃음'은 마음 깊은 곳에서 우러나오는 진정한 기쁨을 보여줍니다.",
+      "en": "The 'eye smile,' where the corners of the mouth turn up, cheeks rise, and wrinkles form around the eyes, shows genuine joy from the heart."
+    }
+  },
+  {
+    "id": "face_quiz_004",
+    "type": "face2text",
+    "image": "/images/4.png",
+    "emotionKey": "sadness",
+    "choices": [
+      { "id": "sadness", "text": "슬픔" },
+      { "id": "sorrow", "text": "비애" },
+      { "id": "melancholy", "text": "우울" },
+      { "id": "disappointment", "text": "실망" }
+    ],
+    "correctAnswer": "sadness",
+    "explanation": {
+      "ko": "눈썹 안쪽이 올라가고 미간이 찌푸려지며, 입꼬리가 아래로 강하게 처진 모습은 금방이라도 눈물이 터질 듯한 비통함을 드러냅니다.",
+      "en": "The inner brows are raised, the forehead is furrowed, and the corners of the mouth are strongly turned down, revealing a sorrow as if tears are about to burst."
+    }
+  },
+  {
+    "id": "face_quiz_005",
+    "type": "face2text",
+    "image": "/images/5.png",
     "emotionKey": "surprise",
     "choices": [
-      {
-        "id": "surprised",
-        "text": "놀람"
-      },
-      {
-        "id": "fear",
-        "text": "두려움"
-      },
-      {
-        "id": "excitement",
-        "text": "흥분"
-      },
-      {
-        "id": "confusion",
-        "text": "혼란"
-      }
+      { "id": "surprise", "text": "놀람" },
+      { "id": "shock", "text": "충격" },
+      { "id": "amazement", "text": "놀라움" },
+      { "id": "astonishment", "text": "경악" }
     ],
-    "correctAnswer": "surprised",
+    "correctAnswer": "surprise",
     "explanation": {
-      "ko": "크게 뜬 눈과 벌어진 입은 놀람의 대표적인 표현입니다.",
-      "en": "Wide open eyes and an open mouth are typical expressions of surprise.",
-      "es": "Los ojos muy abiertos y la boca abierta son expresiones típicas de sorpresa."
+      "ko": "눈썹이 아치형으로 높이 올라가고 눈이 커지며, 턱이 아래로 떨어져 입이 벌어지는 것은 예상치 못한 자극에 대한 전형적인 놀람 반응입니다.",
+      "en": "Arched, high-raised eyebrows, widened eyes, and a dropped jaw with an open mouth are typical reactions of surprise to an unexpected stimulus."
     }
   },
   {
-    "id": "text2face_002",
-    "type": "text2face",
-    "emotionKey": "화남",
-    "choices": [
-      {
-        "id": "angry_face_2",
-        "text": "A",
-        "image": "/images/faces/angry_002.webp"
-      },
-      {
-        "id": "disgusted_face",
-        "text": "B",
-        "image": "/images/faces/disgusted_001.webp"
-      },
-      {
-        "id": "sad_face_2", 
-        "text": "C",
-        "image": "/images/faces/sad_002.webp"
-      },
-      {
-        "id": "neutral_face",
-        "text": "D",
-        "image": "/images/faces/neutral_001.webp"
-      }
-    ],
-    "correctAnswer": "angry_face_2",
-    "explanation": {
-      "ko": "찌푸린 눈썹과 굳게 다문 입은 화난 감정을 명확히 보여줍니다.",
-      "en": "Frowning eyebrows and a tightly closed mouth clearly show angry emotion.",
-      "es": "Las cejas fruncidas y la boca cerrada firmemente muestran claramente emoción enojada."
-    }
-  },
-  {
-    "id": "eyes2text_002",
-    "type": "eyes2text",
-    "image": "/images/eyes/fear_001.webp",
-    "emotionKey": "fear", 
-    "choices": [
-      {
-        "id": "fear",
-        "text": "두려움"
-      },
-      {
-        "id": "surprise",
-        "text": "놀람"
-      },
-      {
-        "id": "anxiety",
-        "text": "불안"
-      },
-      {
-        "id": "alertness",
-        "text": "경계"
-      }
-    ],
-    "correctAnswer": "fear",
-    "explanation": {
-      "ko": "눈이 크게 뜨여있고 동공이 확장된 모습은 두려움의 신호입니다.",
-      "en": "Wide open eyes with dilated pupils are signs of fear.",
-      "es": "Los ojos muy abiertos con pupilas dilatadas son signos de miedo."
-    }
-  },
-  {
-    "id": "face2text_003",
-    "type": "face2text", 
-    "image": "/images/faces/disgusted_001.webp",
-    "emotionKey": "disgust",
-    "choices": [
-      {
-        "id": "disgusted",
-        "text": "혐오"
-      },
-      {
-        "id": "confused",
-        "text": "혼란"
-      },
-      {
-        "id": "disappointed",
-        "text": "실망"
-      },
-      {
-        "id": "contempt",
-        "text": "경멸"
-      }
-    ],
-    "correctAnswer": "disgusted",
-    "explanation": {
-      "ko": "코가 찡그려지고 입술이 말린 표정은 혐오감을 나타냅니다.",
-      "en": "A wrinkled nose and curled lips indicate disgust.",
-      "es": "Una nariz arrugada y labios curvados indican disgusto."
-    }
-  },
-  {
-    "id": "text2face_003",
-    "type": "text2face",
-    "emotionKey": "두려움",
-    "choices": [
-      {
-        "id": "fear_face_2",
-        "text": "A",
-        "image": "/images/faces/fear_002.webp"
-      },
-      {
-        "id": "surprised_face_2",
-        "text": "B",
-        "image": "/images/faces/surprised_002.webp"
-      },
-      {
-        "id": "anxious_face",
-        "text": "C", 
-        "image": "/images/faces/anxious_001.webp"
-      },
-      {
-        "id": "worried_face",
-        "text": "D",
-        "image": "/images/faces/worried_001.webp"
-      }
-    ],
-    "correctAnswer": "fear_face_2",
-    "explanation": {
-      "ko": "눈이 크게 뜨여있고 입이 벌어진 표정은 두려움을 표현합니다.",
-      "en": "Wide open eyes and an open mouth express fear.",
-      "es": "Los ojos muy abiertos y la boca abierta expresan miedo."
-    }
-  },
-  {
-    "id": "eyes2text_003",
-    "type": "eyes2text",
-    "image": "/images/eyes/happy_001.webp", 
-    "emotionKey": "happiness",
-    "choices": [
-      {
-        "id": "happy",
-        "text": "기쁨"
-      },
-      {
-        "id": "content",
-        "text": "만족"
-      },
-      {
-        "id": "amused",
-        "text": "즐거움"
-      },
-      {
-        "id": "pleased",
-        "text": "기쁨"
-      }
-    ],
-    "correctAnswer": "happy",
-    "explanation": {
-      "ko": "눈가의 주름과 밝은 눈빛은 진정한 기쁨을 보여줍니다.",
-      "en": "Crow's feet wrinkles and bright eyes show genuine happiness.",
-      "es": "Las arrugas de patas de gallo y los ojos brillantes muestran felicidad genuina."
-    }
-  },
-  {
-    "id": "face2text_004",
+    "id": "face_quiz_006",
     "type": "face2text",
-    "image": "/images/faces/neutral_001.webp",
-    "emotionKey": "neutral",
+    "image": "/images/6.png",
+    "emotionKey": "joy",
     "choices": [
-      {
-        "id": "neutral",
-        "text": "무표정"
-      },
-      {
-        "id": "calm",
-        "text": "평온"
-      },
-      {
-        "id": "bored",
-        "text": "지루함"
-      },
-      {
-        "id": "serious",
-        "text": "진지함"
-      }
+      { "id": "joy", "text": "기쁨" },
+      { "id": "delight", "text": "즐거움" },
+      { "id": "pleasure", "text": "즐거움" },
+      { "id": "cheerfulness", "text": "명랑" }
     ],
-    "correctAnswer": "neutral",
+    "correctAnswer": "joy",
     "explanation": {
-      "ko": "특별한 감정 표현이 없는 평상시 표정입니다.",
-      "en": "This is a normal expression without any particular emotional display.",
-      "es": "Esta es una expresión normal sin ninguna manifestación emocional particular."
+      "ko": "볼이 올라오며 눈가에 주름이 생기는 '눈웃음'과 활짝 올라간 입꼬리는 마음 깊은 곳에서 우러나오는 진정한 기쁨을 보여줍니다.",
+      "en": "The 'eye smile' with raised cheeks and wrinkles around the eyes, combined with wide-upturned lips, shows genuine joy from the heart."
+    }
+  },
+  {
+    "id": "face_quiz_007",
+    "type": "face2text",
+    "image": "/images/7.png",
+    "emotionKey": "sorrow",
+    "choices": [
+      { "id": "sorrow", "text": "비애" },
+      { "id": "sadness", "text": "슬픔" },
+      { "id": "grief", "text": "슬픔" },
+      { "id": "despair", "text": "절망" }
+    ],
+    "correctAnswer": "sorrow",
+    "explanation": {
+      "ko": "눈썹 안쪽이 올라가고 미간이 찌푸려지며, 입꼬리가 아래로 처진 모습은 금방이라도 눈물이 터질 듯한 깊은 슬픔을 드러냅니다.",
+      "en": "Raised inner brows, a furrowed forehead, and downturned corners of the mouth reveal a deep sorrow, as if on the verge of tears."
+    }
+  },
+  {
+    "id": "face_quiz_008",
+    "type": "face2text",
+    "image": "/images/8.png",
+    "emotionKey": "irritation",
+    "choices": [
+      { "id": "irritation", "text": "짜증" },
+      { "id": "annoyance", "text": "성가심" },
+      { "id": "frustration", "text": "좌절" },
+      { "id": "displeasure", "text": "불쾌" }
+    ],
+    "correctAnswer": "irritation",
+    "explanation": {
+      "ko": "미간을 찌푸리고 눈을 가늘게 뜨며, 입술을 얇고 단단하게 다문 모습은 말로 표현 못 할 불만을 담은 듯한 짜증을 보여줍니다.",
+      "en": "A furrowed brow, narrowed eyes, and thin, tightly pressed lips show irritation, as if holding back unexpressed discontent."
+    }
+  },
+  {
+    "id": "face_quiz_009",
+    "type": "face2text",
+    "image": "/images/9.png",
+    "emotionKey": "anger",
+    "choices": [
+      { "id": "anger", "text": "분노" },
+      { "id": "rage", "text": "격노" },
+      { "id": "fury", "text": "분기" },
+      { "id": "wrath", "text": "노여움" }
+    ],
+    "correctAnswer": "anger",
+    "explanation": {
+      "ko": "미간을 강하게 찌푸리고 눈을 가늘게 떠 상대를 노려보며, 입술을 굳게 다문 모습은 전형적인 분노 표정입니다.",
+      "en": "A strong frown, narrowed eyes staring at someone, and tightly pressed lips are the classic expression of anger."
+    }
+  },
+  {
+    "id": "face_quiz_010",
+    "type": "face2text",
+    "image": "/images/10.png",
+    "emotionKey": "arrogance",
+    "choices": [
+      { "id": "arrogance", "text": "자만" },
+      { "id": "pride", "text": "자부심" },
+      { "id": "conceit", "text": "자만심" },
+      { "id": "smugness", "text": "우쭐" }
+    ],
+    "correctAnswer": "arrogance",
+    "explanation": {
+      "ko": "턱을 살짝 들어 올리고, 입술을 단단히 다문 채 입꼬리를 살짝 올린 모습은 상대를 내려다보는 듯한 자만심을 보여줍니다.",
+      "en": "A slightly raised chin, tightly pressed lips with slightly upturned corners, shows an arrogance as if looking down on others."
+    }
+  },
+  {
+    "id": "face_quiz_011",
+    "type": "face2text",
+    "image": "/images/11.png",
+    "emotionKey": "gratitude",
+    "choices": [
+      { "id": "gratitude", "text": "감사" },
+      { "id": "appreciation", "text": "고마움" },
+      { "id": "thankfulness", "text": "감사함" },
+      { "id": "contentment", "text": "만족" }
+    ],
+    "correctAnswer": "gratitude",
+    "explanation": {
+      "ko": "볼이 부드럽게 올라오고 입꼬리가 자연스럽게 올라간 따뜻한 미소는, 과도한 기쁨보다는 고마움을 담은 감사의 감정을 표현합니다.",
+      "en": "A warm smile with gently raised cheeks and naturally upturned lip corners expresses gratitude rather than excessive joy."
+    }
+  },
+  {
+    "id": "face_quiz_012",
+    "type": "face2text",
+    "image": "/images/12.png",
+    "emotionKey": "friendliness",
+    "choices": [
+      { "id": "friendliness", "text": "친근" },
+      { "id": "warmth", "text": "따뜻함" },
+      { "id": "kindness", "text": "친밀" },
+      { "id": "cordiality", "text": "진심" }
+    ],
+    "correctAnswer": "friendliness",
+    "explanation": {
+      "ko": "볼이 살짝 올라오고 입꼀리가 부드럽게 당겨진, 과하지 않은 진심 어린 미소는 상대를 편안하게 만드는 친근함을 드러냅니다.",
+      "en": "A sincere but not excessive smile, with slightly raised cheeks and gently pulled lip corners, reveals a friendliness that puts others at ease."
+    }
+  },
+  {
+    "id": "face_quiz_013",
+    "type": "face2text",
+    "image": "/images/13.png",
+    "emotionKey": "serenity",
+    "choices": [
+      { "id": "serenity", "text": "평온" },
+      { "id": "calmness", "text": "차분" },
+      { "id": "peace", "text": "평화" },
+      { "id": "tranquility", "text": "고요" }
+    ],
+    "correctAnswer": "serenity",
+    "explanation": {
+      "ko": "입꼬리는 살며시 올라가지만 눈꺼풀이 내려앉아 완전히 이완된 모습은, 깊은 내면의 평화와 평온함을 가장 잘 표현합니다.",
+      "en": "The corners of the mouth are slightly raised, but the eyelids are lowered in complete relaxation, best expressing deep inner peace and serenity."
+    }
+  },
+  {
+    "id": "face_quiz_014",
+    "type": "face2text",
+    "image": "/images/14.png",
+    "emotionKey": "resentment",
+    "choices": [
+      { "id": "resentment", "text": "원망" },
+      { "id": "bitterness", "text": "쓴맛" },
+      { "id": "grudge", "text": "원한" },
+      { "id": "hostility", "text": "적대감" }
+    ],
+    "correctAnswer": "resentment",
+    "explanation": {
+      "ko": "미간을 찌푸리고 입술을 굳게 다문 모습은, 슬픔보다는 분노와 쓰린 감정을 억누르고 있는 원망의 표정을 보여줍니다.",
+      "en": "A furrowed brow and tightly pressed lips show an expression of resentment, suppressing anger and bitter feelings rather than sadness."
+    }
+  },
+  {
+    "id": "face_quiz_015",
+    "type": "face2text",
+    "image": "/images/15.png",
+    "emotionKey": "suspicion",
+    "choices": [
+      { "id": "suspicion", "text": "의심" },
+      { "id": "doubt", "text": "의구심" },
+      { "id": "distrust", "text": "불신" },
+      { "id": "wariness", "text": "경계" }
+    ],
+    "correctAnswer": "suspicion",
+    "explanation": {
+      "ko": "미간을 찌푸리고 눈을 가늘게 뜨며, 굳게 다문 입술로 속내를 숨기는 듯한 모습은 의심의 표정을 완성합니다.",
+      "en": "A furrowed brow, narrowed eyes, and tightly closed lips that seem to hide inner thoughts complete the expression of suspicion."
     }
   }
-] 
+]

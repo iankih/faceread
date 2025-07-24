@@ -94,10 +94,10 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
             {/* 등급별 코멘트 */}
             <div className="text-sm text-muted-foreground mb-4">
-              {result.grade === 'master' && '완벽한 감정 읽기 능력을 보유하고 있습니다!'}
-              {result.grade === 'expert' && '뛰어난 감정 인식 능력을 가지고 있네요!'}
-              {result.grade === 'rookie' && '평균 이상의 감정 이해력을 보여줍니다.'}
-              {result.grade === 'novice' && '감정 읽기 연습을 통해 더 발전할 수 있어요.'}
+              {result.grade === 'master' && '완벽한 감정 읽기 마스터! 거의 모든 표정을 정확히 읽어내셨네요!'}
+              {result.grade === 'expert' && '뛰어난 감정 인식 능력을 가지고 있네요! 전문가 수준입니다!'}
+              {result.grade === 'rookie' && '평균 이상의 감정 이해력을 보여줍니다. 좋은 실력이에요!'}
+              {result.grade === 'novice' && '감정 읽기 연습을 통해 더 발전할 수 있어요. 화이팅!'}
             </div>
 
             {result.score === result.totalQuestions && (
@@ -113,7 +113,7 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
               <span className="text-5xl font-bold text-foreground">
                 {result.score}
               </span>
-              <span className="text-2xl text-gray-500 self-end mb-1">
+              <span className="text-2xl text-muted-foreground self-end mb-1">
                 /{result.totalQuestions}
               </span>
             </div>
@@ -124,19 +124,19 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
             {/* 정답/오답 통계 */}
             <div className="grid grid-cols-2 gap-4 max-w-xs mx-auto">
-              <div className="bg-mint/10 border border-mint/30 rounded-lg p-4">
-                <div className="text-sm text-mint font-medium">
+              <div className="bg-mint/10 border border-mint/30 rounded-lg p-4 dark:bg-mint/20 dark:border-mint/40">
+                <div className="text-sm text-mint font-medium dark:text-mint">
                   {t('common.correct')}
                 </div>
-                <div className="text-2xl font-bold text-mint">
+                <div className="text-2xl font-bold text-mint dark:text-mint">
                   {result.correctAnswers}
                 </div>
               </div>
-              <div className="bg-coral/10 border border-coral/30 rounded-lg p-4">
-                <div className="text-sm text-coral font-medium">
+              <div className="bg-coral/10 border border-coral/30 rounded-lg p-4 dark:bg-coral/20 dark:border-coral/40">
+                <div className="text-sm text-coral font-medium dark:text-coral">
                   {t('common.incorrect')}
                 </div>
-                <div className="text-2xl font-bold text-coral">
+                <div className="text-2xl font-bold text-coral dark:text-coral">
                   {result.incorrectAnswers.length}
                 </div>
               </div>
@@ -178,9 +178,9 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
                 </span>
               </div>
               {showAllAnswers ? (
-                <ChevronUp size={18} className="text-gray-500" />
+                <ChevronUp size={18} className="text-muted-foreground" />
               ) : (
-                <ChevronDown size={18} className="text-gray-500" />
+                <ChevronDown size={18} className="text-muted-foreground" />
               )}
             </Button>
 
@@ -198,25 +198,25 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
                       key={answer.questionId}
                       className={`p-4 rounded-lg border ${
                         answer.isCorrect 
-                          ? 'bg-mint/10 border-mint/30' 
-                          : 'bg-coral/10 border-coral/30'
+                          ? 'bg-mint/10 border-mint/30 dark:bg-mint/20 dark:border-mint/40' 
+                          : 'bg-coral/10 border-coral/30 dark:bg-coral/20 dark:border-coral/40'
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-3">
                         <span className={`inline-flex items-center justify-center w-6 h-6 text-sm font-bold rounded-full ${
                           answer.isCorrect 
-                            ? 'bg-mint/20 text-mint' 
-                            : 'bg-coral/20 text-coral'
+                            ? 'bg-mint/20 text-mint dark:bg-mint/30 dark:text-mint' 
+                            : 'bg-coral/20 text-coral dark:bg-coral/30 dark:text-coral'
                         }`}>
                           {index + 1}
                         </span>
-                        <span className="text-sm text-foreground">
+                        <span className="text-sm text-foreground dark:text-foreground">
                           문제 #{index + 1}
                         </span>
                         <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                           answer.isCorrect 
-                            ? 'bg-mint/20 text-mint' 
-                            : 'bg-coral/20 text-coral'
+                            ? 'bg-mint/20 text-mint dark:bg-mint/30 dark:text-mint' 
+                            : 'bg-coral/20 text-coral dark:bg-coral/30 dark:text-coral'
                         }`}>
                           {answer.isCorrect ? '정답' : '오답'}
                         </span>
@@ -224,26 +224,26 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
                       {/* 문제 이미지 (face2text, eyes2text만) */}
                       {question.image && (question.type === 'face2text' || question.type === 'eyes2text') && (
-                        <div className="mb-3">
+                        <div className="mb-3 text-center">
                           <img 
                             src={question.image} 
                             alt={`문제 ${index + 1} 이미지`}
-                            className="w-20 h-20 object-cover rounded-lg border border-border"
+                            className="w-64 h-64 object-cover rounded-lg border border-border mx-auto"
                           />
                         </div>
                       )}
 
                       <div className="space-y-2 text-sm">
                         <div className="flex items-start gap-2">
-                          <span className={`mt-0.5 ${answer.isCorrect ? 'text-mint' : 'text-coral'}`}>
+                          <span className={`mt-0.5 ${answer.isCorrect ? 'text-mint dark:text-mint' : 'text-coral dark:text-coral'}`}>
                             {answer.isCorrect ? '✅' : '❌'}
                           </span>
                           <div>
-                            <span className="text-foreground">
+                            <span className="text-foreground dark:text-foreground">
                               당신의 답:{' '}
                             </span>
                             <span className={`font-medium ${
-                              answer.isCorrect ? 'text-mint' : 'text-coral'
+                              answer.isCorrect ? 'text-mint dark:text-mint' : 'text-coral dark:text-coral'
                             }`}>
                               {selectedChoiceText}
                             </span>
@@ -252,12 +252,12 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
                         {!answer.isCorrect && (
                           <div className="flex items-start gap-2">
-                            <span className="text-mint mt-0.5">✅</span>
+                            <span className="text-mint mt-0.5 dark:text-mint">✅</span>
                             <div>
-                              <span className="text-foreground">
+                              <span className="text-foreground dark:text-foreground">
                                 정답:{' '}
                               </span>
-                              <span className="font-medium text-mint">
+                              <span className="font-medium text-mint dark:text-mint">
                                 {correctChoiceText}
                               </span>
                             </div>
@@ -266,9 +266,9 @@ const RewardScreen: React.FC<RewardScreenProps> = ({
 
                         {/* 해설 표시 */}
                         {question.explanation && (
-                          <div className="mt-3 p-3 bg-background/50 rounded-lg border border-border">
-                            <div className="text-xs text-muted-foreground mb-1">💡 해설</div>
-                            <div className="text-sm text-foreground">
+                          <div className="mt-3 p-3 bg-background/50 rounded-lg border border-border dark:bg-background/30 dark:border-border">
+                            <div className="text-xs text-muted-foreground mb-1 dark:text-muted-foreground text-left">💡 해설</div>
+                            <div className="text-sm text-foreground dark:text-foreground text-left">
                               {getExplanationByLanguage(question.explanation)}
                             </div>
                           </div>
