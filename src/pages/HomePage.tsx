@@ -52,9 +52,9 @@ const HomePage: React.FC = () => {
           <div className="w-full max-w-sm bg-card rounded-2xl p-6 shadow-lg border border-border">
             {/* 아이콘 + 제목 */}
             <div className="text-center mb-6">
-              <div className="text-4xl mb-3">🎭</div>
-              <h1 className="text-xl font-bold text-foreground">감정 인식 테스트</h1>
-              <p className="text-sm text-muted-foreground mt-2">당신의 감정 읽기 능력은?</p>
+              <div className="text-4xl sm:text-5xl mb-3">🎭</div>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground leading-tight">{t('quiz.title')}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground mt-2 leading-relaxed">{t('quiz.description')}</p>
             </div>
 
             {/* 닉네임 입력 - 더 큰 터치 영역 */}
@@ -91,7 +91,7 @@ const HomePage: React.FC = () => {
               variant="default"
               className="w-full h-12 bg-primary text-foreground font-semibold rounded-xl hover:bg-primary-dark hover:scale-[1.02] transition-all duration-200"
             >
-              {isLoading ? t('quiz.loading') : '> 테스트 시작 <'}
+              {isLoading ? t('quiz.loading') : t('quiz.start')}
             </Button>
 
             {/* 공유 버튼 영역 */}

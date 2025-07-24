@@ -2,8 +2,8 @@
 
 export interface EmotionQuestion {
   id: string;
-  type: 'face2text' | 'text2face' | 'eyes2text';
-  image?: string; // face2text, eyes2text에서 사용
+  type: 'face2text';
+  image: string; // face2text에서 항상 사용
   emotionKey: string; // i18n 키 또는 감정 텍스트
   choices: AnswerChoice[];
   correctAnswer: string;
@@ -17,7 +17,6 @@ export interface EmotionQuestion {
 export interface AnswerChoice {
   id: string;
   text: string;
-  image?: string; // text2face에서 사용
 }
 
 export interface UserAnswer {

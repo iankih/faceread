@@ -72,17 +72,27 @@
     "termsOfService": "Terms of Service",
     "githubSource": "GitHub Source"
   },
+  "question": {
+    "title": "What emotion does this expression show?",
+    "description": "Please select the emotion shown in the image.",
+    "processing": "Processing answer...",
+    "retry": "Try again",
+    "error": {
+      "timeout": "An error occurred while processing your answer. Please try again.",
+      "general": "An error occurred while processing your answer."
+    }
+  },
   "faq": {
-    "title": "FAQ",
-    "q1": "Where does the data come from?",
-    "a1": "• Public Data Portal: 'Population by administrative district'\n• National Statistical Portal (KOSIS): 'Total fertility rate by city/county/district'\nBoth agencies use raw data from the National Statistical Office.",
-    "q2": "How is the 'total fertility rate' displayed in the app calculated?",
-    "a2": "The official TFR = the estimated number of births per woman of childbearing age. We use the annual TFR values published by KOSIS as is, and for the Eup/Myeon/Dong level, we refer to the annual TFR of the corresponding city/county/district.",
-    "q3": "Newly established administrative districts are not searchable.",
-    "a3": "After the announcement of administrative district reorganization, when the National Statistical Office distributes new codes, we update the code map within a week. During this period, you can search by higher administrative districts.",
+    "title": "Frequently Asked Questions",
+    "q1": "What types of emotions can be recognized?",
+    "a1": "We recognize the 6 basic emotions (joy, sadness, anger, surprise, fear, disgust) and neutral expressions, among various facial expressions.",
+    "q2": "How accurate is the recognition?",
+    "a2": "Accuracy varies depending on individual emotion recognition skills, but averages around 70-80%. You can improve through practice.",
+    "q3": "How are scores calculated?",
+    "a3": "Scores are based on correct answers out of 10 questions, with grades: 9-10 (Master), 6-8 (Expert), 3-5 (Rookie), 0-2 (Novice).",
     "q4": "Do you collect personal information?",
-    "a4": "This is a simple inquiry service without a login function, and only traffic data aggregated by GA4 (anonymized settings) is collected. Identifiable information such as IP addresses and locations are not stored.",
-    "q5": "Why was this created?",
-    "a5": "News talks about low birth rates every day, but it's hard to feel the situation in 'our neighborhood'. This website was created to show the abstract sense of crisis as concrete numbers in 'where I live' by simplifying the difficult functions of the hard-to-find National Statistical Portal. I thought that just being aware of whether my region is higher or lower than the national average is a start."
+    "a4": "We don't collect any personal information except for nicknames, which are only used for displaying results.",
+    "q5": "Can I use this on mobile?",
+    "a5": "Yes, the app is optimized for all devices including mobile, tablet, and desktop."
   }
 }

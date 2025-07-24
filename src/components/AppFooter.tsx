@@ -5,7 +5,7 @@ const AppFooter: React.FC = () => {
   const { t } = useTranslation()
 
   return (
-    <footer className="mt-auto bg-input border-t border-gray-100 py-6">
+    <footer className="mt-auto bg-input border-t border-border py-6">
       <div className="container mx-auto px-4 text-center text-sm text-foreground">
         <p>
           {t('footer.madeBy')} | {t('footer.version', { version: '0.1.0-beta' })}{' '}

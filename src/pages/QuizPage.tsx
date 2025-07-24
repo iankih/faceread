@@ -53,8 +53,8 @@ const QuizPage: React.FC = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-pulse">
-            <div className="h-4 bg-gray-300 rounded w-48 mx-auto mb-4"></div>
-            <div className="h-8 bg-gray-300 rounded w-32 mx-auto"></div>
+            <div className="h-4 bg-muted rounded w-48 mx-auto mb-4"></div>
+            <div className="h-8 bg-muted rounded w-32 mx-auto"></div>
           </div>
           <p className="text-muted-foreground mt-4">{t('quiz.preparing')}</p>
         </div>
@@ -81,9 +81,9 @@ const QuizPage: React.FC = () => {
               </Button>
             </div>
           </div>
-          <div className="w-full bg-muted rounded-full h-2">
+          <div className="w-full bg-muted rounded-full h-2 dark:bg-muted">
             <div 
-              className="bg-primary h-2 rounded-full transition-all duration-300"
+              className="bg-primary h-2 rounded-full transition-all duration-300 dark:bg-primary"
               style={{ width: `${((quiz.currentQuestionIndex + 1) / quiz.totalQuestions) * 100}%` }}
             />
           </div>

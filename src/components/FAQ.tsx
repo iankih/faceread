@@ -48,18 +48,18 @@ const FAQ: React.FC = () => {
   return (
     <section className="px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-left mb-6 flex items-center gap-2">
-          <HelpCircle className="w-6 h-6 text-primary" />
+        <h2 className="text-2xl font-bold text-left mb-6 flex items-center gap-2 text-foreground">
+          <HelpCircle className="w-6 h-6 text-primary dark:text-primary-foreground" />
           {t("faq.title")}
         </h2>
         
         <Accordion type="single" collapsible className="w-full">
           {faqData.map((item) => (
             <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger className="text-left font-medium hover:no-underline">
+              <AccordionTrigger className="text-left font-medium hover:no-underline text-foreground">
                 {t(item.questionKey)}
               </AccordionTrigger>
-              <AccordionContent className="text-foreground whitespace-pre-line">
+              <AccordionContent className="text-foreground whitespace-pre-line text-left">
                 {t(item.answerKey)}
               </AccordionContent>
             </AccordionItem>

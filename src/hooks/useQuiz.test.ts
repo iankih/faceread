@@ -13,11 +13,11 @@ vi.mock('../lib/question-loader', () => ({
 
 const mockQuestionLoader = vi.mocked(questionLoader)
 
-// 테스트용 문제 데이터
-const createMockQuestion = (id: string, type: 'face2text' | 'text2face' | 'eyes2text'): EmotionQuestion => ({
+// 테스트용 문제 데이터 - face2text 타입만 지원
+const createMockQuestion = (id: string): EmotionQuestion => ({
   id,
-  type,
-  image: type !== 'text2face' ? `/images/${type}/${id}.jpg` : undefined,
+  type: 'face2text',
+  image: `/images/face2text/${id}.jpg`,
   emotionKey: 'happiness',
   choices: [
     { id: 'happy', text: 'A. 기쁨' },
@@ -34,24 +34,20 @@ const createMockQuestion = (id: string, type: 'face2text' | 'text2face' | 'eyes2
 })
 
 const mockQuestions: EmotionQuestion[] = [
-  // face2text 문제들 (4개 필요)
-  createMockQuestion('face1', 'face2text'),
-  createMockQuestion('face2', 'face2text'),
-  createMockQuestion('face3', 'face2text'),
-  createMockQuestion('face4', 'face2text'),
-  createMockQuestion('face5', 'face2text'), // 추가 문제
-  
-  // text2face 문제들 (3개 필요)
-  createMockQuestion('text1', 'text2face'),
-  createMockQuestion('text2', 'text2face'),
-  createMockQuestion('text3', 'text2face'),
-  createMockQuestion('text4', 'text2face'), // 추가 문제
-  
-  // eyes2text 문제들 (3개 필요)
-  createMockQuestion('eyes1', 'eyes2text'),
-  createMockQuestion('eyes2', 'eyes2text'),
-  createMockQuestion('eyes3', 'eyes2text'),
-  createMockQuestion('eyes4', 'eyes2text') // 추가 문제
+  // face2text 문제들 (10개)
+  createMockQuestion('face1'),
+  createMockQuestion('face2'),
+  createMockQuestion('face3'),
+  createMockQuestion('face4'),
+  createMockQuestion('face5'),
+  createMockQuestion('face6'),
+  createMockQuestion('face7'),
+  createMockQuestion('face8'),
+  createMockQuestion('face9'),
+  createMockQuestion('face10'),
+  createMockQuestion('face11'), // 추가 문제들
+  createMockQuestion('face12'),
+  createMockQuestion('face13')
 ]
 
 describe('useQuiz Hook', () => {
@@ -160,15 +156,11 @@ describe('useQuiz Hook', () => {
       expect(result.current.questions).toHaveLength(10) // 표준 모드는 10문제
       expect(result.current.currentQuestionIndex).toBe(0)
       
-      // 문제 유형 분포 확인 (face2text: 4, text2face: 3, eyes2text: 3)
+      // 문제 유형 확인 (face2text만 지원)
       const questionTypes = result.current.questions.map(q => q.type)
       const face2textCount = questionTypes.filter(type => type === 'face2text').length
-      const text2faceCount = questionTypes.filter(type => type === 'text2face').length
-      const eyes2textCount = questionTypes.filter(type => type === 'eyes2text').length
       
-      expect(face2textCount).toBe(4)
-      expect(text2faceCount).toBe(3)
-      expect(eyes2textCount).toBe(3)
+      expect(face2textCount).toBe(10) // 모든 문제가 face2text
     })
 
     it('통합 모드로 퀴즈를 시작해야 한다', async () => {

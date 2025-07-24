@@ -49,7 +49,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ shareText, shareUrl }) => {
     window.open(kakaoUrl, '_blank', 'width=600,height=400')
   }
 
-  const shareButtonClass = "w-12 h-12 rounded-xl border-2 border-border bg-card hover:bg-primary/10 hover:text-primary hover:border-primary/50 focus-visible:ring-primary transition-all duration-200"
+  const shareButtonClass = "w-12 h-12 rounded-xl border-2 border-border bg-card text-muted-foreground hover:bg-primary/10 hover:text-primary hover:border-primary/50 focus-visible:ring-primary transition-all duration-200"
 
   return (
     <div className="flex justify-center items-center gap-3">

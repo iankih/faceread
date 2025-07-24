@@ -30,69 +30,6 @@
     }
   },
   {
-    "id": "text2face_001",
-    "type": "text2face", 
-    "emotionKey": "Sadness",
-    "choices": [
-      {
-        "id": "sad_face",
-        "text": "A",
-        "image": "/images/faces/sad_001.webp"
-      },
-      {
-        "id": "happy_face",
-        "text": "B",
-        "image": "/images/faces/happy_002.webp"
-      },
-      {
-        "id": "angry_face",
-        "text": "C",
-        "image": "/images/faces/angry_001.webp"
-      },
-      {
-        "id": "fear_face",
-        "text": "D",
-        "image": "/images/faces/fear_001.webp"
-      }
-    ],
-    "correctAnswer": "sad_face",
-    "explanation": {
-      "ko": "입꼬리가 아래로 내려가고 눈썹이 처진 표정이 슬픔의 전형적인 특징입니다.",
-      "en": "Downturned mouth corners and drooping eyebrows are typical features of sadness.",
-      "es": "Las comisuras de la boca hacia abajo y las cejas caídas son características típicas de la tristeza."
-    }
-  },
-  {
-    "id": "eyes2text_001",
-    "type": "eyes2text",
-    "image": "/images/eyes/angry_001.webp",
-    "emotionKey": "anger",
-    "choices": [
-      {
-        "id": "angry",
-        "text": "Anger"
-      },
-      {
-        "id": "focused",
-        "text": "Focus"
-      },
-      {
-        "id": "confused",
-        "text": "Confusion"
-      },
-      {
-        "id": "determined",
-        "text": "Determination"
-      }
-    ],
-    "correctAnswer": "angry",
-    "explanation": {
-      "ko": "눈썹이 내려앉고 눈이 좁혀진 모습은 화가 난 감정을 나타냅니다.",
-      "en": "Furrowed brows and narrowed eyes indicate anger.",
-      "es": "Las cejas fruncidas y los ojos entrecerrados indican ira."
-    }
-  },
-  {
     "id": "face2text_002",
     "type": "face2text",
     "image": "/images/faces/surprised_001.webp",
@@ -123,36 +60,243 @@
     }
   },
   {
-    "id": "text2face_002",
-    "type": "text2face",
-    "emotionKey": "Anger",
+    "id": "face2text_003",
+    "type": "face2text", 
+    "image": "/images/faces/disgusted_001.webp",
+    "emotionKey": "disgust",
     "choices": [
       {
-        "id": "angry_face_2",
-        "text": "A",
-        "image": "/images/faces/angry_002.webp"
+        "id": "disgusted",
+        "text": "Disgust"
       },
       {
-        "id": "disgusted_face",
-        "text": "B",
-        "image": "/images/faces/disgusted_001.webp"
+        "id": "confused",
+        "text": "Confusion"
       },
       {
-        "id": "sad_face_2",
-        "text": "C",
-        "image": "/images/faces/sad_002.webp"
+        "id": "disappointed",
+        "text": "Disappointment"
       },
       {
-        "id": "neutral_face",
-        "text": "D",
-        "image": "/images/faces/neutral_001.webp"
+        "id": "contempt",
+        "text": "Contempt"
       }
     ],
-    "correctAnswer": "angry_face_2",
+    "correctAnswer": "disgusted",
+    "explanation": {
+      "ko": "코가 찡그려지고 입술이 말린 표정은 혐오감을 나타냅니다.",
+      "en": "A wrinkled nose and curled lips indicate disgust.",
+      "es": "Una nariz arrugada y labios curvados indican disgusto."
+    }
+  },
+  {
+    "id": "face2text_004",
+    "type": "face2text",
+    "image": "/images/faces/neutral_001.webp",
+    "emotionKey": "neutral",
+    "choices": [
+      {
+        "id": "neutral",
+        "text": "Neutral"
+      },
+      {
+        "id": "calm",
+        "text": "Calm"
+      },
+      {
+        "id": "bored",
+        "text": "Bored"
+      },
+      {
+        "id": "serious",
+        "text": "Serious"
+      }
+    ],
+    "correctAnswer": "neutral",
+    "explanation": {
+      "ko": "특별한 감정 표현이 없는 평상시 표정입니다.",
+      "en": "This is a normal expression without any particular emotional display.",
+      "es": "Esta es una expresión normal sin ninguna manifestación emocional particular."
+    }
+  },
+  {
+    "id": "face2text_005",
+    "type": "face2text",
+    "image": "/images/faces/sad_001.webp",
+    "emotionKey": "sadness",
+    "choices": [
+      {
+        "id": "sad",
+        "text": "Sadness"
+      },
+      {
+        "id": "disappointed",
+        "text": "Disappointment"
+      },
+      {
+        "id": "worried",
+        "text": "Worry"
+      },
+      {
+        "id": "tired",
+        "text": "Tired"
+      }
+    ],
+    "correctAnswer": "sad",
+    "explanation": {
+      "ko": "입꼬리가 아래로 내려가고 눈썹이 처진 표정이 슬픔의 전형적인 특징입니다.",
+      "en": "Downturned mouth corners and drooping eyebrows are typical features of sadness.",
+      "es": "Las comisuras de la boca hacia abajo y las cejas caídas son características típicas de la tristeza."
+    }
+  },
+  {
+    "id": "face2text_006",
+    "type": "face2text",
+    "image": "/images/faces/angry_002.webp",
+    "emotionKey": "anger",
+    "choices": [
+      {
+        "id": "angry",
+        "text": "Anger"
+      },
+      {
+        "id": "frustrated",
+        "text": "Frustration"
+      },
+      {
+        "id": "serious",
+        "text": "Serious"
+      },
+      {
+        "id": "determined",
+        "text": "Determined"
+      }
+    ],
+    "correctAnswer": "angry",
     "explanation": {
       "ko": "찌푸린 눈썹과 굳게 다문 입은 화난 감정을 명확히 보여줍니다.",
       "en": "Frowning eyebrows and a tightly closed mouth clearly show angry emotion.",
       "es": "Las cejas fruncidas y la boca cerrada firmemente muestran claramente emoción enojada."
     }
+  },
+  {
+    "id": "face2text_007",
+    "type": "face2text",
+    "image": "/images/faces/fear_002.webp",
+    "emotionKey": "fear",
+    "choices": [
+      {
+        "id": "fear",
+        "text": "Fear"
+      },
+      {
+        "id": "surprised",
+        "text": "Surprise"
+      },
+      {
+        "id": "worried",
+        "text": "Worry"
+      },
+      {
+        "id": "anxious",
+        "text": "Anxiety"
+      }
+    ],
+    "correctAnswer": "fear",
+    "explanation": {
+      "ko": "눈이 크게 뜨여있고 입이 벌어진 표정은 두려움을 표현합니다.",
+      "en": "Wide open eyes and an open mouth express fear.",
+      "es": "Los ojos muy abiertos y la boca abierta expresan miedo."
+    }
+  },
+  {
+    "id": "face2text_008",
+    "type": "face2text",
+    "image": "/images/eyes/angry_001.webp",
+    "emotionKey": "anger",
+    "choices": [
+      {
+        "id": "angry",
+        "text": "Anger"
+      },
+      {
+        "id": "focused",
+        "text": "Focus"
+      },
+      {
+        "id": "confused",
+        "text": "Confusion"
+      },
+      {
+        "id": "determined",
+        "text": "Determination"
+      }
+    ],
+    "correctAnswer": "angry",
+    "explanation": {
+      "ko": "눈썹이 내려앉고 눈이 좁혀진 모습은 화가 난 감정을 나타냅니다.",
+      "en": "Furrowed brows and narrowed eyes indicate anger.",
+      "es": "Las cejas fruncidas y los ojos entrecerrados indican ira."
+    }
+  },
+  {
+    "id": "face2text_009",
+    "type": "face2text",
+    "image": "/images/eyes/fear_001.webp",
+    "emotionKey": "fear", 
+    "choices": [
+      {
+        "id": "fear",
+        "text": "Fear"
+      },
+      {
+        "id": "surprise",
+        "text": "Surprise"
+      },
+      {
+        "id": "anxiety",
+        "text": "Anxiety"
+      },
+      {
+        "id": "alertness",
+        "text": "Alertness"
+      }
+    ],
+    "correctAnswer": "fear",
+    "explanation": {
+      "ko": "눈이 크게 뜨여있고 동공이 확장된 모습은 두려움의 신호입니다.",
+      "en": "Wide open eyes with dilated pupils are signs of fear.",
+      "es": "Los ojos muy abiertos con pupilas dilatadas son signos de miedo."
+    }
+  },
+  {
+    "id": "face2text_010",
+    "type": "face2text",
+    "image": "/images/eyes/happy_001.webp", 
+    "emotionKey": "happiness",
+    "choices": [
+      {
+        "id": "happy",
+        "text": "Joy"
+      },
+      {
+        "id": "content",
+        "text": "Content"
+      },
+      {
+        "id": "amused",
+        "text": "Amused"
+      },
+      {
+        "id": "pleased",
+        "text": "Pleased"
+      }
+    ],
+    "correctAnswer": "happy",
+    "explanation": {
+      "ko": "눈가의 주름과 밝은 눈빛은 진정한 기쁨을 보여줍니다.",
+      "en": "Crow's feet wrinkles and bright eyes show genuine happiness.",
+      "es": "Las arrugas de patas de gallo y los ojos brillantes muestran felicidad genuina."
+    }
   }
-] 
+]

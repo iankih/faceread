@@ -13,7 +13,12 @@
       "Bash(rm:*)",
       "Bash(npm install:*)",
       "Bash(./node_modules/.bin/tsc:*)",
-      "Bash(npm run test:*)"
+      "Bash(npm run test:*)",
+      "Bash(jq:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "Bash(git add:*)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }

@@ -110,20 +110,16 @@ export class QuestionLoader {
    * @returns 문제 배열
    */
   private async performLoad(language: SupportedLanguage): Promise<EmotionQuestion[]> {
-    // 개발/테스트를 위해 임시 데이터 사용
-    console.log(`[QuestionLoader] Using test data for development (language: ${language})`);
-    return Promise.resolve(testQuestions);
-    
-    // 원래 로직 (주석 처리)
-    /*
     let retries = 0;
     
     while (retries < this.config.maxRetries) {
       try {
+        console.log(`[QuestionLoader] Loading questions for language: ${language}`);
+        
         // 동적 import로 언어별 JSON 로딩
         // Vite가 코드 스플리팅을 위해 별도 청크로 분리함
         const module = await import(
-          // @vite-ignore 
+          /* @vite-ignore */ 
           `../data/questions.${language}.json`
         );
         
@@ -133,11 +129,16 @@ export class QuestionLoader {
         // 데이터 유효성 검증
         this.validateQuestions(questions, language);
         
+        console.log(`[QuestionLoader] Successfully loaded ${questions.length} questions for ${language}`);
         return questions;
       } catch (error) {
         retries++;
+        console.warn(`[QuestionLoader] Attempt ${retries} failed for ${language}:`, error);
+        
         if (retries >= this.config.maxRetries) {
-          throw error;
+          // 마지막 시도가 실패한 경우에만 테스트 데이터로 폴백
+          console.error(`[QuestionLoader] All attempts failed for ${language}, falling back to test data`);
+          return Promise.resolve(testQuestions);
         }
         
         // 재시도 전 잠시 대기
@@ -146,7 +147,6 @@ export class QuestionLoader {
     }
     
     throw new Error(`Failed to load after ${this.config.maxRetries} retries`);
-    */
   }
 
   /**
@@ -154,11 +154,9 @@ export class QuestionLoader {
    * @param questions 검증할 문제 배열
    * @param language 언어 코드
    */
-  /*
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private _validateQuestions(_questions: EmotionQuestion[], _language: SupportedLanguage): void {
-    if (!Array.isArray(_questions)) {
-      throw new Error(`Invalid questions data for ${_language}: not an array`);
+  private validateQuestions(questions: EmotionQuestion[], language: SupportedLanguage): void {
+    if (!Array.isArray(questions)) {
+      throw new Error(`Invalid questions data for ${language}: not an array`);
     }
 
     if (questions.length === 0) {
@@ -179,8 +177,9 @@ export class QuestionLoader {
         throw new Error(`Question must have exactly 4 choices: ${question.id}`);
       }
     }
+    
+    console.log(`[QuestionLoader] Validation passed for ${questions.length} questions in ${language}`);
   }
-  */
 
   /**
    * 캐시된 데이터를 모두 삭제합니다
